@@ -14,8 +14,9 @@ const useStyles = makeStyles({
   }
 });
 
-const SLIDER_MAX = 14;
-const SLIDER_INITIAL = SLIDER_MAX / 2;
+const SLIDER_MIN = -10
+const SLIDER_MAX = 10;
+const SLIDER_INITIAL = 0;
 
 export default function Gauge() {
   const classes = useStyles();
@@ -37,16 +38,16 @@ export default function Gauge() {
 
   const marks = [
     {
+      value: SLIDER_MIN,
+      label: SLIDER_MIN.toString(),
+    },
+    {
       value: 0,
-      label: '0',
+      label: 0,
     },
     {
-      value: 7,
-      label: '7',
-    },
-    {
-      value: 14,
-      label: '14',
+      value: SLIDER_MAX,
+      label: SLIDER_MAX.toString(),
     },
   ];
 
@@ -59,14 +60,14 @@ export default function Gauge() {
           markLabel: classes.markLabel,
         }}
         value={value}
-        min={0}
-        step={0.5}
+        min={SLIDER_MIN}
+        step={1}
         max={SLIDER_MAX}
         scale={(x) => x ** 10}
         onChange={handleChange}
         track={false}
         marks={marks}
-        valueLabelDisplay='auto'
+        valueLabelDisplay='on'
         valueLabelFormat={valueLabelFormat}
       />
     </div>
