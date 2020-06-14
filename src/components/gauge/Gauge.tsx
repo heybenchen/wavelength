@@ -27,13 +27,7 @@ export default function Gauge() {
   };
 
   const valueLabelFormat = () => {
-    let fixedValue = value;
-    if ((value as number).toFixed) {
-      fixedValue = parseFloat((value as number).toFixed(1));
-    } else {
-      fixedValue = parseFloat((value as number[])[0].toFixed(1));
-    }
-    return fixedValue.toString();
+    return parseFloat((value as number).toFixed(1));
   }
 
   const marks = [
@@ -61,7 +55,7 @@ export default function Gauge() {
         }}
         value={value}
         min={SLIDER_MIN}
-        step={1}
+        step={.5}
         max={SLIDER_MAX}
         scale={(x) => x ** 10}
         onChange={handleChange}
