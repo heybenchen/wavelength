@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import dialScore from "../../images/scoreboard.svg";
+import dialTarget from "../../images/dial/target.svg";
 import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -29,7 +29,7 @@ export default function Dial() {
           style={{
             transform: `rotate(${rotationValue}deg)`,
           }}
-          src={dialScore}
+          src={dialTarget}
           alt="Dial"/>
       </div>
       <Button
