@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import dialScore from "../../scoreboard.svg";
+import dialScore from "../../images/scoreboard.svg";
 import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     height: '100%',
   },
   dial: {
-    transition: 'transform 1.5s ease',
+    transition: 'transform 2s ease',
   },
 });
 
@@ -18,7 +18,7 @@ export default function Dial() {
   const [rotationValue, setRotationValue] = React.useState(0);
 
   const randomRotationValue = () => {
-    setRotationValue(Math.random() * 1000);
+    setRotationValue(Math.random() * 360 + 360 + rotationValue);
   }
 
   return (
