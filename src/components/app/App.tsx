@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
-import Gauge from '../gauge/Gauge';
-import Dial from '../dial/Dial';
+import Device from '../device/Device';
 
 function App() {
   return (
     <div className="App">
-      <Dial/>
+      <Device/>
     </div>
   );
 }
