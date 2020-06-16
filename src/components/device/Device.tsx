@@ -56,7 +56,7 @@ export default function Dial() {
     setDialRotationValue(Math.random() * 160 - 80);
   };
   const revealScore = () => {
-    visorRotationValue ? setVisorRotationValue(0) : setVisorRotationValue(170);
+    visorRotationValue === 0 ? setVisorRotationValue(170) : setVisorRotationValue(0);
   };
 
   const resetDevice = () => {
