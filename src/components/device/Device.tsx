@@ -29,15 +29,13 @@ const useStyles = makeStyles({
     objectFit: "scale-down",
   },
   deviceScore: {
-    transition: "transform 1.5s ease",
+    transition: "transform 1.2s ease",
   },
   deviceCover: {},
   deviceDial: {
     transition: "transform .6s ease",
   },
-  deviceVisor: {
-    transition: "transform 2s ease",
-  },
+  deviceVisor: { },
   buttonContainer: {
     alignSelf: "center",
     marginBottom: "20px",
@@ -49,6 +47,7 @@ export default function Dial() {
   const [scoreRotationValue, setScoreRotationValue] = React.useState(0);
   const [dialRotationValue, setDialRotationValue] = React.useState(0);
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
+  const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
 
   const randomizeScore = () => {
     setScoreRotationValue(Math.random() * 360 + 180 + scoreRotationValue);
@@ -59,6 +58,16 @@ export default function Dial() {
   const revealScore = () => {
     visorRotationValue ? setVisorRotationValue(0) : setVisorRotationValue(170);
   };
+
+  const resetDevice = () => {
+    setVisorRotationValue(0);
+    setVisorAnimationDuration(0.6);
+    setDialRotationValue(0);
+    window.setTimeout(() => {
+      randomizeScore();
+      setVisorAnimationDuration(2);
+    }, 600);
+  }
 
   return (
     <div className={classes.root}>
@@ -75,6 +84,7 @@ export default function Dial() {
           className={classNames(classes.deviceImg, classes.deviceVisor)}
           style={{
             transform: `rotate(${visorRotationValue}deg)`,
+            transition: `transform ${visorAnimationDuration}s ease`,
           }}
           src={deviceVisor}
           alt="Device Visor"
@@ -92,7 +102,6 @@ export default function Dial() {
           }}
           src={deviceDial}
           alt="Device Dial"
-          onClick={randomizeScore}
         />
       </div>
       <ButtonGroup
@@ -101,7 +110,7 @@ export default function Dial() {
         color="primary"
         aria-label="contained primary button group"
       >
-        <Button onClick={randomizeScore}>Reset</Button>
+        <Button onClick={resetDevice}>Reset</Button>
         <Button onClick={randomizeGuess}>Guess</Button>
         <Button onClick={revealScore}>Reveal</Button>
       </ButtonGroup>
