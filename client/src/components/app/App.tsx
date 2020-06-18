@@ -5,12 +5,12 @@ import socketIOClient from 'socket.io-client';
 const SERVER_PORT = ":9000";
 
 function App() {
-  const [playerCount, setPlayerCount] = useState(0);
+  const [connectedClients, setConnectedClients] = useState(0);
 
   useEffect(() => {
     const socket = socketIOClient(SERVER_PORT);
-    socket.on("new connection", (data: number) => {
-      setPlayerCount(data);
+    socket.on("connected clients update", (data: number) => {
+      setConnectedClients(data);
     });
     return function cleanup() {
       socket.disconnect();
@@ -21,7 +21,7 @@ function App() {
     <div className="App">
       <Device/>
       <div>
-        Connected: {playerCount}
+        Connected: {connectedClients}
       </div>
     </div>
   );

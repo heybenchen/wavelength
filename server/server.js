@@ -13,9 +13,9 @@ http.listen(9000, () => {
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
-    io.emit('new connection', io.engine.clientsCount);
+    io.emit('connected clients update', io.engine.clientsCount);
   });
 
   console.log('a user connected');
-  io.emit('new connection', io.engine.clientsCount);
+  io.emit('connected clients update', io.engine.clientsCount);
 });
