@@ -110,7 +110,7 @@ export default function Dial() {
         color="primary"
         aria-label="contained primary button group"
       >
-        <Button onClick={resetDevice}>Reset</Button>
+        <Button onClick={resetDevice}>New Round</Button>
         <Button onClick={randomizeGuess}>Guess</Button>
         <Button onClick={revealScore}>Reveal</Button>
       </ButtonGroup>
