@@ -12,10 +12,10 @@
     "socketio": "^1.0.0"
   },
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "node server.js",
     "client": "cd client && yarn start",
     "start": "concurrently --kill-others-on-fail 'yarn server' 'yarn client'",
-    "build": "cd client && yarn build"
+    "build": "cd client && yarn install && yarn build"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
