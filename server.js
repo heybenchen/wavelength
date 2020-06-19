@@ -1,13 +1,12 @@
-const express = require('express')();
+const express = require('express');
+const http = require('http').createServer(express);
 const io = require('socket.io')(http);
 const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 9000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// Client
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -18,8 +17,16 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+// API calls
+app.get('/api/hello', (req, res) => {
+  res.send({ express: 'Hello From Express' });
+});
+
+app.post('/api/world', (req, res) => {
+  console.log(req.body);
+  res.send(
+    `I received your POST request. This is what you sent me: ${req.body.post}`,
+  );
 });
 
 app.listen(port, () => {
