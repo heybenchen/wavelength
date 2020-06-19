@@ -14,7 +14,9 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "cd client && yarn start",
-    "start": "concurrently --kill-others-on-fail 'yarn server' 'yarn client'",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev:server": "cd client && yarn build && cd .. && yarn start",
+    "start": "node server.js",
     "build": "cd client && yarn install && yarn build"
   },
   "devDependencies": {
