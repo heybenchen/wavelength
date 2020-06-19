@@ -12,7 +12,7 @@
     "socketio": "^1.0.0"
   },
   "scripts": {
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "client": "cd client && yarn start",
     "start": "concurrently --kill-others-on-fail 'yarn server' 'yarn client'",
     "build": "cd client && yarn install && yarn build"
