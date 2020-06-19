@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "@types/socket.io-client": "^1.4.33"
-  }
+  },
+  "proxy": "http://localhost:9000"
 }
