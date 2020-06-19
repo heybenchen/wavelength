@@ -1,6 +1,12 @@
-const app = require('express')();
-const http = require('http').createServer(app);
+const express = require('express')();
 const io = require('socket.io')(http);
+const path = require('path');
+
+const app = express();
+const port = process.env.PORT || 9000;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
@@ -16,7 +22,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-http.listen(9000, () => {
+app.listen(port, () => {
   console.log('listening on *:9000');
 });
 
