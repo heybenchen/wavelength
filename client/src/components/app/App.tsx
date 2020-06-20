@@ -9,7 +9,7 @@ function App() {
   const [connectedClients, setConnectedClients] = useState(0);
 
   useEffect(() => {
-    const socket = io(SERVER_PORT);
+    const socket = io();
     socket.on("connected clients update", (data: number) => {
       setConnectedClients(data);
     });
