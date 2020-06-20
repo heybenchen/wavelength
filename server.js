@@ -1,10 +1,9 @@
-const express = require('express');
-const http = require('http').createServer(express);
-const io = require('socket.io')(http);
+const app = require('express')();
+const http = require('http').createServer(app);
 const path = require('path');
+const io = require('socket.io')(http);
 
-const app = express();
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 9001;
 
 // Client
 if (process.env.NODE_ENV === 'production') {
@@ -14,6 +13,10 @@ if (process.env.NODE_ENV === 'production') {
   // Handle React routing, return all requests to React app
   app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
   });
 }
 
@@ -29,8 +32,8 @@ app.post('/api/world', (req, res) => {
   );
 });
 
-app.listen(port, () => {
-  console.log('listening on *:9000');
+http.listen(port, () => {
+  console.log('listening on *:', port);
 });
 
 io.on('connection', (socket) => {
