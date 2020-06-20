@@ -3,13 +3,14 @@ import Device from '../device/Device';
 import './App.css';
 import io from 'socket.io-client';
 
-const SERVER_PORT = ":9001";
+const DEVELOPMENT_PORT = ":9001"
 
 function App() {
   const [connectedClients, setConnectedClients] = useState(0);
-
+  
   useEffect(() => {
-    const socket = io();
+    const isDevelopmentMode = process.env.NODE_ENV === 'development';
+    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
     socket.on("connected clients update", (data: number) => {
       setConnectedClients(data);
     });
