@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(http);
@@ -7,6 +8,8 @@ const port = process.env.PORT || 9001;
 
 // Client
 if (process.env.NODE_ENV === 'production') {
+  console.log("Running in production");
+
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -15,6 +18,8 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 } else {
+  console.log("Running in development");
+
   app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
