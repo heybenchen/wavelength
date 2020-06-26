@@ -5,7 +5,7 @@ import deviceCover from "../../images/device/Cover.svg";
 import deviceDial from "../../images/device/Dial.svg";
 import deviceTarget from "../../images/device/Target.svg";
 import deviceVisor from "../../images/device/Visor.svg";
-import { ButtonGroup, Button, Container } from "@material-ui/core";
+import {Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
