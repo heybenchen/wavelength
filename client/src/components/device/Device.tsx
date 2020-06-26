@@ -69,7 +69,7 @@ export default function Device({ socket }: DeviceProps) {
     return function cleanup() {
       socket.off("guess updated");
     };
-  });
+  }, [socket]);
 
   const randomizeScore = () => {
     setScoreRotationValue(Math.random() * 360 + 180 + scoreRotationValue);
