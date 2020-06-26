@@ -5,7 +5,7 @@ import deviceCover from "../../images/device/Cover.svg";
 import deviceDial from "../../images/device/Dial.svg";
 import deviceTarget from "../../images/device/Target.svg";
 import deviceVisor from "../../images/device/Visor.svg";
-import { ButtonGroup, Button } from "@material-ui/core";
+import { ButtonGroup, Button, Container } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -37,9 +37,14 @@ const useStyles = makeStyles({
   },
   deviceVisor: { },
   buttonContainer: {
+    display: "flex",
     alignSelf: "center",
     marginBottom: "20px",
   },
+  spacer: {
+    width: "16px",
+    height: "16px",
+  }
 });
 
 export default function Dial() {
@@ -113,15 +118,11 @@ export default function Dial() {
           alt="Device Dial"
         />
       </div>
-      <ButtonGroup
-        className={classes.buttonContainer}
-        variant="contained"
-        color="primary"
-        aria-label="contained primary button group"
-      >
-        <Button onClick={resetDevice}>New Round</Button>
-        <Button onClick={revealScore}>Reveal</Button>
-      </ButtonGroup>
+      <div className={classes.buttonContainer}>
+        <Button variant="contained" color="primary" onClick={revealScore}>Reveal</Button>
+        <div className={classes.spacer}></div>
+        <Button variant="contained" color="secondary" onClick={resetDevice} >New Round</Button>
+      </div>
     </div>
   );
 }
