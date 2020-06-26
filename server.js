@@ -44,14 +44,20 @@ http.listen(port, () => {
 });
 
 io.on('connection', (socket) => {
+  console.log('a user connected: ', socket.id);
+  connectedIds[socket.id] = true;
+  io.emit('connected ids', connectedIds);
+  console.log(connectedIds);
+
   socket.on('disconnect', () => {
     console.log('user disconnected: ', socket.id);
     delete connectedIds[socket.id];
     io.emit('connected ids', connectedIds);
   });
 
-  console.log('a user connected: ', socket.id);
-  connectedIds[socket.id] = true;
-  io.emit('connected ids', connectedIds);
-  console.log(connectedIds);
+  socket.on('updated guess', (guess) => {
+    console.log("received guess: ", guess);
+    io.emit('guess updated', guess);
+  });
+  
 });

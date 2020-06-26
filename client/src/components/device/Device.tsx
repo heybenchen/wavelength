@@ -1,11 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import deviceCover from "../../images/device/Cover.svg";
 import deviceDial from "../../images/device/Dial.svg";
 import deviceTarget from "../../images/device/Target.svg";
 import deviceVisor from "../../images/device/Visor.svg";
-import {Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   deviceDial: {
     transition: "transform .6s ease",
   },
-  deviceVisor: { },
+  deviceVisor: {},
   buttonContainer: {
     display: "flex",
     alignSelf: "center",
@@ -44,21 +44,40 @@ const useStyles = makeStyles({
   spacer: {
     width: "16px",
     height: "16px",
-  }
+  },
 });
 
-export default function Dial() {
+type DeviceProps = {
+  socket: SocketIOClient.Socket | undefined;
+};
+
+export default function Device({ socket }: DeviceProps) {
   const classes = useStyles();
   const [scoreRotationValue, setScoreRotationValue] = React.useState(0);
   const [dialRotationValue, setDialRotationValue] = React.useState(0);
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
   const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("guess updated", (guess: number) => {
+      console.log(guess);
+      setDialRotationValue(guess);
+    });
+
+    return function cleanup() {
+      socket.off("guess updated");
+    };
+  });
+
   const randomizeScore = () => {
     setScoreRotationValue(Math.random() * 360 + 180 + scoreRotationValue);
   };
   const revealScore = () => {
-    visorRotationValue === 0 ? setVisorRotationValue(170) : setVisorRotationValue(0);
+    visorRotationValue === 0
+      ? setVisorRotationValue(170)
+      : setVisorRotationValue(0);
   };
 
   const resetDevice = () => {
@@ -69,19 +88,26 @@ export default function Dial() {
       randomizeScore();
       setVisorAnimationDuration(2);
     }, 600);
-  }
+  };
 
   const handleDeviceClick = (event: React.MouseEvent) => {
     let midpointX = window.innerWidth / 2;
     let midpointY = window.innerHeight / 2;
 
-    if (event.clientY > midpointY) { return; }
+    if (event.clientY > midpointY) {
+      return;
+    }
 
-    let guess = (event.clientX - midpointX) / midpointX * 180;
+    let guess = ((event.clientX - midpointX) / midpointX) * 180;
     guess = Math.max(guess, -80);
     guess = Math.min(guess, 80);
     setDialRotationValue(guess);
-  }
+    updateGuess(guess);
+  };
+
+  const updateGuess = (guess: number) => {
+    socket && socket.emit("updated guess", guess);
+  };
 
   return (
     <div className={classes.root}>
@@ -119,9 +145,13 @@ export default function Dial() {
         />
       </div>
       <div className={classes.buttonContainer}>
-        <Button variant="contained" color="primary" onClick={revealScore}>Reveal</Button>
+        <Button variant="contained" color="primary" onClick={revealScore}>
+          Reveal
+        </Button>
         <div className={classes.spacer}></div>
-        <Button variant="contained" color="secondary" onClick={resetDevice} >New Round</Button>
+        <Button variant="contained" color="secondary" onClick={resetDevice}>
+          New Round
+        </Button>
       </div>
     </div>
   );
