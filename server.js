@@ -6,6 +6,8 @@ const io = require('socket.io')(http);
 
 const port = process.env.PORT || 9001;
 
+const connectedIds = {};
+
 // Client
 if (process.env.NODE_ENV === 'production') {
   console.log("Running in production");
@@ -44,9 +46,12 @@ http.listen(port, () => {
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected: ', socket.id);
-    io.emit('connected clients update', io.engine.clientsCount);
+    delete connectedIds[socket.id];
+    io.emit('connected ids', connectedIds);
   });
 
   console.log('a user connected: ', socket.id);
-  io.emit('connected clients update', io.engine.clientsCount);
+  connectedIds[socket.id] = true;
+  io.emit('connected ids', connectedIds);
+  console.log(connectedIds);
 });

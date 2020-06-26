@@ -6,13 +6,13 @@ import io from 'socket.io-client';
 const DEVELOPMENT_PORT = ":9001"
 
 function App() {
-  const [connectedClients, setConnectedClients] = useState(0);
+  const [connectedClients, setConnectedClients] = useState(['']);
   
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === 'development';
     const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected clients update", (data: number) => {
-      setConnectedClients(data);
+    socket.on("connected ids", (data: Object) => {
+      setConnectedClients(Object.keys(data));
     });
     return function cleanup() {
       socket.disconnect();
@@ -20,10 +20,15 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="app">
       <Device/>
-      <div>
-        Connected: {connectedClients}
+      <div className="app__connected__container">
+        Connected: {Object.keys(connectedClients).length}
+        <div className="app__connected__text">
+          {connectedClients.map((clientName, index) => {
+            return <div key={index}>{clientName}</div>
+          })}
+        </div>
       </div>
     </div>
   );
