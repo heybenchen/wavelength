@@ -62,7 +62,6 @@ export default function Device({ socket }: DeviceProps) {
     if (!socket) return;
 
     socket.on("guess updated", (guess: number) => {
-      console.log(guess);
       setDialRotationValue(guess);
     });
 
