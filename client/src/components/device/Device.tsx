@@ -52,9 +52,6 @@ export default function Dial() {
   const randomizeScore = () => {
     setScoreRotationValue(Math.random() * 360 + 180 + scoreRotationValue);
   };
-  const randomizeGuess = () => {
-    setDialRotationValue(Math.random() * 160 - 80);
-  };
   const revealScore = () => {
     visorRotationValue === 0 ? setVisorRotationValue(170) : setVisorRotationValue(0);
   };
@@ -69,9 +66,21 @@ export default function Dial() {
     }, 600);
   }
 
+  const handleDeviceClick = (event: React.MouseEvent) => {
+    let midpointX = window.innerWidth / 2;
+    let midpointY = window.innerHeight / 2;
+
+    if (event.clientY > midpointY) { return; }
+
+    let guess = (event.clientX - midpointX) / midpointX * 180;
+    guess = Math.max(guess, -80);
+    guess = Math.min(guess, 80);
+    setDialRotationValue(guess);
+  }
+
   return (
     <div className={classes.root}>
-      <div className={classes.deviceContainer}>
+      <div className={classes.deviceContainer} onClick={handleDeviceClick}>
         <img
           className={classNames(classes.deviceImg, classes.deviceScore)}
           style={{
@@ -111,7 +120,6 @@ export default function Dial() {
         aria-label="contained primary button group"
       >
         <Button onClick={resetDevice}>New Round</Button>
-        <Button onClick={randomizeGuess}>Guess</Button>
         <Button onClick={revealScore}>Reveal</Button>
       </ButtonGroup>
     </div>

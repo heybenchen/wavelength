@@ -43,10 +43,10 @@ http.listen(port, () => {
 
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log('user disconnected: ', socket.id);
     io.emit('connected clients update', io.engine.clientsCount);
   });
 
-  console.log('a user connected');
+  console.log('a user connected: ', socket.id);
   io.emit('connected clients update', io.engine.clientsCount);
 });
