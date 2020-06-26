@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Device from "../device/Device";
-import "./App.css";
 import io from "socket.io-client";
+import "./App.css";
+import Device from "../device/Device";
+import Prompt from "../prompt/Prompt";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -23,6 +24,7 @@ function App() {
 
   return (
     <div className="app">
+      <Prompt/>
       <Device socket={socket} />
       <div className="app__connected__container">
         Connected: {Object.keys(connectedClients).length}
