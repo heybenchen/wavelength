@@ -1,9 +1,8 @@
 import {
-  Container,
-  Paper,
-  makeStyles,
   Card,
   CardContent,
+  Container,
+  makeStyles,
   Typography,
 } from "@material-ui/core";
 import React from "react";
@@ -38,13 +37,17 @@ export default function Prompt() {
     <Container className={classes.root}>
       <Card className={classes.card}>
         <CardContent>
-          <Typography className={classes.cardText} color="textSecondary">Left</Typography>
+          <Typography className={classes.cardText} color="textSecondary">
+            Left
+          </Typography>
         </CardContent>
       </Card>
       <div className={classes.spacer}></div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography className={classes.cardText} color="textSecondary">Right</Typography>
+          <Typography className={classes.cardText} color="textSecondary">
+            Right
+          </Typography>
         </CardContent>
       </Card>
     </Container>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import "./App.css";
 import Device from "../device/Device";
 import Prompt from "../prompt/Prompt";
+import "./App.css";
 
 const DEVELOPMENT_PORT = ":9001";
 
