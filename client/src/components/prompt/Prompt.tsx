@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   card: {
     display: "flex",
     height: "100px",
-    width: "180px",
+    width: "160px",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -30,7 +30,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Prompt() {
+type PromptProps = {
+  wordSet: string[] | undefined;
+};
+
+export default function Prompt({ wordSet = ["Left", "Right"] }: PromptProps) {
   const classes = useStyles();
 
   return (
@@ -38,7 +42,7 @@ export default function Prompt() {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.cardText} color="textSecondary">
-            Left
+            {wordSet[0]}
           </Typography>
         </CardContent>
       </Card>
@@ -46,7 +50,7 @@ export default function Prompt() {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.cardText} color="textSecondary">
-            Right
+            {wordSet[1]}
           </Typography>
         </CardContent>
       </Card>

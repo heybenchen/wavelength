@@ -6,6 +6,7 @@ import deviceCover from "../../images/device/Cover.svg";
 import deviceDial from "../../images/device/Dial.svg";
 import deviceTarget from "../../images/device/Target.svg";
 import deviceVisor from "../../images/device/Visor.svg";
+import Prompt from "../prompt/Prompt";
 
 const useStyles = makeStyles({
   root: {
@@ -62,19 +63,22 @@ export default function Device({ socket }: DeviceProps) {
   const [dialRotationValue, setDialRotationValue] = React.useState(0);
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
   const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
+  const [wordSet, setWordSet] = React.useState([""]);
 
   type GameState = {
     score: number;
     guess: number;
     isRevealed: boolean;
+    wordSet: string[];
   };
 
-  const initializeGame = ({ score, guess, isRevealed }: GameState) => {
+  const initializeGame = ({ score, guess, isRevealed, wordSet }: GameState) => {
     setScoreRotationValue(score);
     setDialRotationValue(guess);
+    setWordSet(wordSet);
     window.setTimeout(() => {
       setVisorRotationValue(isRevealed ? MAX_VISOR : 0);
-    }, 1000)
+    }, 1000);
   };
 
   const randomScore = () => {
@@ -85,7 +89,8 @@ export default function Device({ socket }: DeviceProps) {
     setVisorRotationValue(MAX_VISOR);
   };
 
-  const startNewRound = (score: number) => {
+  const startNewRound = (score: number, wordSet: string[]) => {
+    setWordSet(wordSet);
     setVisorRotationValue(0);
     setVisorAnimationDuration(0.6);
     setDialRotationValue(0);
@@ -101,7 +106,7 @@ export default function Device({ socket }: DeviceProps) {
       return;
     }
 
-    let {left, width} = event.currentTarget.getBoundingClientRect();
+    let { left, width } = event.currentTarget.getBoundingClientRect();
     let percentage = (event.clientX - left) / width;
     let guess = (percentage * 160 - 80) * 1.2;
     guess = Math.max(guess, MIN_DIAL);
@@ -141,6 +146,7 @@ export default function Device({ socket }: DeviceProps) {
 
   return (
     <div className={classes.root}>
+      <Prompt wordSet={wordSet} />
       <div className={classes.deviceContainer}>
         <img
           className={classNames(classes.deviceImg, classes.deviceScore)}
