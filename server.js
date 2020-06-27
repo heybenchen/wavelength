@@ -7,6 +7,11 @@ const io = require("socket.io")(http);
 const port = process.env.PORT || 9001;
 
 const connectedIds = {};
+const gameState = {
+  score: 0,
+  guess: 0,
+  isRevealed: false,
+};
 
 // Client
 if (process.env.NODE_ENV === "production") {
@@ -47,7 +52,7 @@ io.on("connection", (socket) => {
   console.log("a user connected: ", socket.id);
   connectedIds[socket.id] = true;
   io.emit("connected ids", connectedIds);
-  console.log(connectedIds);
+  io.emit("initialize", gameState);
 
   socket.on("disconnect", () => {
     console.log("user disconnected: ", socket.id);
@@ -56,14 +61,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send reveal", () => {
+    gameState.isRevealed = true;
     io.emit("receive reveal");
   });
 
   socket.on("send new round", (score) => {
+    gameState.score = score;
+    gameState.isRevealed = false;
     io.emit("receive new round", score);
   })
 
   socket.on("send guess", (guess) => {
+    gameState.guess = guess;
     io.emit("receive guess", guess);
   });
 });

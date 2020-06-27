@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   deviceCover: {},
   deviceDial: {
     transition: "transform .6s ease",
+    pointerEvents: "none",
   },
   deviceVisor: {},
   buttonContainer: {
@@ -48,6 +49,8 @@ const useStyles = makeStyles({
 });
 
 const MAX_VISOR = 170;
+const MIN_DIAL = -80;
+const MAX_DIAL = 80;
 
 type DeviceProps = {
   socket: SocketIOClient.Socket | undefined;
@@ -60,34 +63,30 @@ export default function Device({ socket }: DeviceProps) {
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
   const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
 
-  useEffect(() => {
-    if (!socket) return;
+  type GameState = {
+    score: number;
+    guess: number;
+    isRevealed: boolean;
+  };
 
-    socket.on("receive guess", setDialRotationValue);
-    socket.on("receive new round", resetDevice);
-    socket.on("receive reveal", showVisor);
-
-    return function cleanup() {
-      socket.off("receive guess");
-      socket.off("receive new round");
-      socket.off("receive reveal");
-    };
-  }, [socket]);
+  const initializeGame = ({ score, guess, isRevealed }: GameState) => {
+    setScoreRotationValue(score);
+    setDialRotationValue(guess);
+    window.setTimeout(() => {
+      setVisorRotationValue(isRevealed ? MAX_VISOR : 0);
+    }, 1000)
+  };
 
   const randomScore = () => {
     return Math.random() * 360 + 180 + scoreRotationValue;
   };
 
-  const showVisor = () => {
+  const revealVisor = () => {
     setVisorRotationValue(MAX_VISOR);
   };
 
-  const hideVisor = () => {
+  const startNewRound = (score: number) => {
     setVisorRotationValue(0);
-  };
-
-  const resetDevice = (score: number) => {
-    hideVisor();
     setVisorAnimationDuration(0.6);
     setDialRotationValue(0);
     window.setTimeout(() => {
@@ -97,36 +96,53 @@ export default function Device({ socket }: DeviceProps) {
   };
 
   const handleDeviceClick = (event: React.MouseEvent) => {
-    let midpointX = window.innerWidth / 2;
     let midpointY = window.innerHeight / 2;
-
     if (event.clientY > midpointY) {
       return;
     }
 
-    // TODO: Replace with better touch accuracy
-    let guess = ((event.clientX - midpointX) / midpointX) * 180;
-    guess = Math.max(guess, -80);
-    guess = Math.min(guess, 80);
+    let {left, width} = event.currentTarget.getBoundingClientRect();
+    let percentage = (event.clientX - left) / width;
+    let guess = (percentage * 160 - 80) * 1.2;
+    guess = Math.max(guess, MIN_DIAL);
+    guess = Math.min(guess, MAX_DIAL);
+    console.log(percentage);
+
     setDialRotationValue(guess);
     emitGuess(guess);
   };
 
   const emitNewRound = () => {
     socket && socket.emit("send new round", randomScore());
-  }
+  };
 
   const emitGuess = (guess: number) => {
     socket && socket.emit("send guess", guess);
-  }
+  };
 
   const emitReveal = () => {
     socket && socket.emit("send reveal", true);
-  }
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("initialize", initializeGame);
+    socket.on("receive guess", setDialRotationValue);
+    socket.on("receive new round", startNewRound);
+    socket.on("receive reveal", revealVisor);
+
+    return function cleanup() {
+      socket.off("receive guess");
+      socket.off("receive new round");
+      socket.off("receive reveal");
+      socket.off("receive initialize");
+    };
+  }, [socket]);
 
   return (
     <div className={classes.root}>
-      <div className={classes.deviceContainer} onClick={handleDeviceClick}>
+      <div className={classes.deviceContainer}>
         <img
           className={classNames(classes.deviceImg, classes.deviceScore)}
           style={{
@@ -149,6 +165,8 @@ export default function Device({ socket }: DeviceProps) {
           style={{}}
           src={deviceCover}
           alt="Device Cover"
+          draggable={false}
+          onClick={handleDeviceClick}
         />
         <img
           className={classNames(classes.deviceImg, classes.deviceDial)}
