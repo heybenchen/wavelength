@@ -11,32 +11,42 @@ const useStyles = makeStyles({
 });
 
 type ScoreProps = {
-  color: "default" | "primary" | "secondary" | undefined;
-  score: number;
   socket: SocketIOClient.Socket | undefined;
+  teamId: 0 | 1;
 };
 
 
-export default function Score({color, score, socket}: ScoreProps) {
+export default function Score({teamId, socket}: ScoreProps) {
   const classes = useStyles();
-  const [counter, setCounter] = useState(0);
+  const [score, setScore] = useState(0);
 
-  const handleIncrement = () => {
-    setCounter(counter + 1);
+  const updateScore = (teamScores: number[]) => {
+    setScore(teamScores[teamId]);
   };
 
-  const handleDecrement = () => {
-    if (counter <= 0) return;
-    setCounter(counter - 1);
-  };
+  const incrementScore = () => {
+    socket && socket.emit("increment score", teamId);
+  }
 
-  //TODO: Sync scores
+  const decrementScore = () => {
+    socket && socket.emit("decrement score", teamId);
+  }
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("receive score", updateScore);
+
+    return function cleanup() {
+      socket.off("receive score");
+    };
+  }, [socket]);
 
   return (
-    <ButtonGroup className={classes.root} size="small" variant="contained" color={color}>
-      <Button className={classes.button} size="small" onClick={handleDecrement}>-</Button>
-      <Button className={classes.button} variant="contained">{counter}</Button>
-      <Button className={classes.button} onClick={handleIncrement}>+</Button>
+    <ButtonGroup className={classes.root} size="small" variant="contained" color={teamId ? "primary" : "secondary"}>
+      <Button className={classes.button} size="small" onClick={decrementScore}>-</Button>
+      <Button className={classes.button} variant="contained">{score}</Button>
+      <Button className={classes.button} onClick={incrementScore}>+</Button>
     </ButtonGroup>
   );
 }

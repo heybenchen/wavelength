@@ -12,6 +12,7 @@ const gameState = {
   guess: 0,
   isRevealed: false,
   wordSet: wordList.pop(),
+  teamScores: [0, 0],
 };
 
 // Client
@@ -67,4 +68,14 @@ io.on("connection", (socket) => {
     gameState.guess = guess;
     io.emit("receive guess", guess);
   });
+
+  socket.on("increment score", (teamId) => {
+    gameState.teamScores[teamId] = gameState.teamScores[teamId] + 1;
+    io.emit("receive score", gameState.teamScores);
+  })
+
+  socket.on("decrement score", (teamId) => {
+    gameState.teamScores[teamId] = gameState.teamScores[teamId] - 1;
+    io.emit("receive score", gameState.teamScores);
+  })
 });

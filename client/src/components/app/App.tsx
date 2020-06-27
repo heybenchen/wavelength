@@ -9,7 +9,6 @@ const DEVELOPMENT_PORT = ":9001";
 function App() {
   const [connectedClients, setConnectedClients] = useState([""]);
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
-  const [teamScores, setTeamScores] = useState([0, 0]);
 
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
@@ -28,11 +27,11 @@ function App() {
     <div className="app">
       <Device socket={socket} />
       <div className="app__score__container">
-        <Score socket={socket} color="primary" score={teamScores[0]} />
+        <Score socket={socket} teamId={0}/>
         <div>
           Players: {Object.keys(connectedClients).length}
         </div>
-        <Score socket={socket} color="secondary" score={teamScores[1]} />
+        <Score socket={socket} teamId={1}/>
       </div>
     </div>
   );
