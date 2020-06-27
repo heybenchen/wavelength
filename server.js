@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
+const path = require("path");
 const io = require("socket.io")(http);
 const wordList = require("./words");
 
@@ -18,11 +19,11 @@ if (process.env.NODE_ENV === "production") {
   console.log("Running in production");
 
   // Serve any static files
-  app.use(static(join(__dirname, "client/build")));
+  app.use(express.static(path.join(__dirname, "client/build")));
 
   // Handle React routing, return all requests to React app
   app.get("*", function (req, res) {
-    res.sendFile(join(__dirname, "client/build", "index.html"));
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 } else {
   console.log("Running in development");
