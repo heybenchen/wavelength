@@ -34,8 +34,9 @@ type PromptProps = {
   wordSet: string[] | undefined;
 };
 
-export default function Prompt({ wordSet = ["Left", "Right"] }: PromptProps) {
+export default function Prompt(props: PromptProps) {
   const classes = useStyles();
+  const wordSet = props.wordSet || ["Left", "Right"];
 
   return (
     <Container className={classes.root}>

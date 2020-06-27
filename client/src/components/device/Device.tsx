@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
   deviceImg: {
     position: "absolute",
-    width: "70vmin",
+    width: "90vmin",
     height: "auto",
     objectFit: "scale-down",
   },
@@ -44,7 +44,6 @@ const useStyles = makeStyles({
     alignSelf: "center",
     marginBottom: "20px",
     justifyContent: "space-between",
-    padding: "0 16px"
   },
   button: {
     flex: 1,
@@ -201,11 +200,11 @@ export default function Device({ socket }: DeviceProps) {
           Peek
         </Button>
         <div className={classes.spacer}></div>
-        <Button className={classes.button} variant="contained" color="primary" onClick={emitReveal}>
+        <Button className={classes.button} variant="contained" onClick={emitReveal}>
           Submit
         </Button>
         <div className={classes.spacer}></div>
-        <Button className={classes.button} variant="contained" color="secondary" onClick={emitNewRound}>
+        <Button className={classes.button} variant="contained" onClick={emitNewRound}>
           New
         </Button>
         <div className={classes.spacer}></div>

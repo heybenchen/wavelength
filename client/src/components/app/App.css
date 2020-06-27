@@ -11,6 +11,10 @@
   color: white;
 }
 
-.app__connected__container {
+.app__score__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-bottom: 16px;
 }

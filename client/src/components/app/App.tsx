@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Device from "../device/Device";
+import Score from "../score/Score";
 import "./App.css";
 
 const DEVELOPMENT_PORT = ":9001";
@@ -8,6 +9,7 @@ const DEVELOPMENT_PORT = ":9001";
 function App() {
   const [connectedClients, setConnectedClients] = useState([""]);
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
+  const [teamScores, setTeamScores] = useState([0, 0]);
 
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
@@ -25,8 +27,12 @@ function App() {
   return (
     <div className="app">
       <Device socket={socket} />
-      <div className="app__connected__container">
-        Connected: {Object.keys(connectedClients).length}
+      <div className="app__score__container">
+        <Score socket={socket} color="primary" score={teamScores[0]} />
+        <div>
+          Players: {Object.keys(connectedClients).length}
+        </div>
+        <Score socket={socket} color="secondary" score={teamScores[1]} />
       </div>
     </div>
   );
