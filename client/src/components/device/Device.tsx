@@ -40,8 +40,14 @@ const useStyles = makeStyles({
   deviceVisor: {},
   buttonContainer: {
     display: "flex",
+    width: "100%",
     alignSelf: "center",
     marginBottom: "20px",
+    justifyContent: "space-between",
+    padding: "0 16px"
+  },
+  button: {
+    flex: 1,
   },
   spacer: {
     width: "16px",
@@ -190,17 +196,19 @@ export default function Device({ socket }: DeviceProps) {
         />
       </div>
       <div className={classes.buttonContainer}>
-        <Button variant="contained" onClick={togglePeekVisor}>
-          Peek Answer
+        <div className={classes.spacer}></div>
+        <Button className={classes.button} variant="contained" onClick={togglePeekVisor}>
+          Peek
         </Button>
         <div className={classes.spacer}></div>
-        <Button variant="contained" color="primary" onClick={emitReveal}>
-          End Round
+        <Button className={classes.button} variant="contained" color="primary" onClick={emitReveal}>
+          Submit
         </Button>
         <div className={classes.spacer}></div>
-        <Button variant="contained" color="secondary" onClick={emitNewRound}>
-          New Round
+        <Button className={classes.button} variant="contained" color="secondary" onClick={emitNewRound}>
+          New
         </Button>
+        <div className={classes.spacer}></div>
       </div>
     </div>
   );
