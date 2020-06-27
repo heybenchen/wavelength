@@ -63,6 +63,7 @@ export default function Device({ socket }: DeviceProps) {
   const [dialRotationValue, setDialRotationValue] = React.useState(0);
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
   const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
+  const [visorOpacity, setVisorOpacity] = React.useState(1);
   const [wordSet, setWordSet] = React.useState([""]);
 
   type GameState = {
@@ -89,8 +90,13 @@ export default function Device({ socket }: DeviceProps) {
     setVisorRotationValue(MAX_VISOR);
   };
 
+  const togglePeekVisor = () => {
+    setVisorOpacity(visorOpacity === 1 ? 0.4 : 1);
+  }
+
   const startNewRound = (score: number, wordSet: string[]) => {
     setWordSet(wordSet);
+    setVisorOpacity(1);
     setVisorRotationValue(0);
     setVisorAnimationDuration(0.6);
     setDialRotationValue(0);
@@ -160,7 +166,8 @@ export default function Device({ socket }: DeviceProps) {
           className={classNames(classes.deviceImg, classes.deviceVisor)}
           style={{
             transform: `rotate(${visorRotationValue}deg)`,
-            transition: `transform ${visorAnimationDuration}s ease`,
+            transition: `transform ${visorAnimationDuration}s ease, opacity 1s ease`,
+            opacity: visorOpacity,
           }}
           src={deviceVisor}
           alt="Device Visor"
@@ -183,8 +190,12 @@ export default function Device({ socket }: DeviceProps) {
         />
       </div>
       <div className={classes.buttonContainer}>
+        <Button variant="contained" onClick={togglePeekVisor}>
+          Peek Answer
+        </Button>
+        <div className={classes.spacer}></div>
         <Button variant="contained" color="primary" onClick={emitReveal}>
-          Reveal
+          End Round
         </Button>
         <div className={classes.spacer}></div>
         <Button variant="contained" color="secondary" onClick={emitNewRound}>

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
   card: {
     display: "flex",
-    height: "100px",
+    height: "90px",
     width: "160px",
     justifyContent: "center",
     alignItems: "center",
