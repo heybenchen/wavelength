@@ -14,6 +14,7 @@ function App() {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
     const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
     socket.on("connected ids", (data: Object) => {
+      console.log("Connected IDs: ", Object.keys(data));
       setConnectedClients(Object.keys(data));
     });
     setSocket(socket);
@@ -28,11 +29,6 @@ function App() {
       <Device socket={socket} />
       <div className="app__connected__container">
         Connected: {Object.keys(connectedClients).length}
-        <div className="app__connected__text">
-          {connectedClients.map((clientName, index) => {
-            return <div key={index}>{clientName}</div>;
-          })}
-        </div>
       </div>
     </div>
   );

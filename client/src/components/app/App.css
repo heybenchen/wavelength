@@ -11,7 +11,6 @@
   color: white;
 }
 
-.app__connected__text {
-  margin: 8px;
-  font-size: 12px;
+.app__connected__container {
+  margin: 16px;
 }

@@ -106,7 +106,6 @@ export default function Device({ socket }: DeviceProps) {
     let guess = (percentage * 160 - 80) * 1.2;
     guess = Math.max(guess, MIN_DIAL);
     guess = Math.min(guess, MAX_DIAL);
-    console.log(percentage);
 
     setDialRotationValue(guess);
     emitGuess(guess);
