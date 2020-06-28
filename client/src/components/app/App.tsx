@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import Device from "../device/Device";
 import Score from "../score/Score";
 import "./App.css";
+import { Chip } from "@material-ui/core";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -27,11 +28,9 @@ function App() {
     <div className="app">
       <Device socket={socket} />
       <div className="app__score__container">
-        <Score socket={socket} teamId={0}/>
-        <div>
-          Players: {Object.keys(connectedClients).length}
-        </div>
-        <Score socket={socket} teamId={1}/>
+        <Score socket={socket} teamId={0} />
+        <Chip label={`Players: ${Object.keys(connectedClients).length}`}/>
+        <Score socket={socket} teamId={1} />
       </div>
     </div>
   );

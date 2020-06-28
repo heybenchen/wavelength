@@ -44,7 +44,7 @@ export default function Score({teamId, socket}: ScoreProps) {
 
   return (
     <ButtonGroup className={classes.root} size="small" variant="contained" color={teamId ? "primary" : "secondary"}>
-      <Button className={classes.button} size="small" onClick={decrementScore}>-</Button>
+      <Button className={classes.button} onClick={decrementScore}>-</Button>
       <Button className={classes.button} variant="contained">{score}</Button>
       <Button className={classes.button} onClick={incrementScore}>+</Button>
     </ButtonGroup>

@@ -9,6 +9,10 @@
   justify-content: center;
   font-size: calc(10px + 1.5vmin);
   color: white;
+  background-image: url(../../images/background.jpg);
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: exclusion;
 }
 
 .app__score__container {
