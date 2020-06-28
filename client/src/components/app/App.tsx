@@ -1,7 +1,6 @@
 import { Chip, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import background from "../../images/background@2x.png";
 import Device from "../device/Device";
 import Score from "../score/Score";
 
@@ -17,11 +16,11 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     fontSize: "calc(10px + 1.5vmin)",
-    backgroundImage: `url(${background})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundBlendMode: "exclusion",
-    backgroundColor: "#181d2d",
+    // backgroundImage: `url(${background})`,
+    // backgroundPosition: "center",
+    // backgroundSize: "cover",
+    // backgroundBlendMode: "exclusion",
+    backgroundColor: "#c2cdd4",
   },
   status: {
     display: "flex",

@@ -113,11 +113,6 @@ export default function Device({ socket }: DeviceProps) {
   };
 
   const handleDeviceClick = (event: React.MouseEvent) => {
-    let midpointY = window.innerHeight / 2;
-    if (event.clientY > midpointY) {
-      return;
-    }
-
     let { left, width } = event.currentTarget.getBoundingClientRect();
     let percentage = (event.clientX - left) / width;
     let guess = (percentage * 160 - 80) * 1.2;
