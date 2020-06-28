@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, makeStyles } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 const useStyles = makeStyles({
   root: {
@@ -20,9 +20,9 @@ export default function Score({teamId, socket}: ScoreProps) {
   const classes = useStyles();
   const [score, setScore] = useState(0);
 
-  const updateScore = (teamScores: number[]) => {
+  const updateScore = useCallback((teamScores: number[]) => {
     setScore(teamScores[teamId]);
-  };
+  }, [teamId]);
 
   const incrementScore = () => {
     socket && socket.emit("increment score", teamId);
@@ -40,7 +40,7 @@ export default function Score({teamId, socket}: ScoreProps) {
     return function cleanup() {
       socket.off("receive score");
     };
-  }, [socket]);
+  }, [socket, updateScore]);
 
   return (
     <ButtonGroup className={classes.root} size="small" variant="contained" color={teamId ? "primary" : "secondary"}>
