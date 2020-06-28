@@ -15,6 +15,18 @@ const gameState = {
   teamScores: [0, 0],
 };
 
+function getPoints() {
+  let modScore = (gameState.score % 360) % 180;
+  let normalizedGuess = gameState.guess < 0 ? gameState.guess + 360 : gameState.guess;
+  let modGuess = normalizedGuess % 180;
+  let separation = Math.ceil(Math.abs(modGuess - modScore) / 2.5);
+  console.log(modScore, modGuess, separation);
+  if (separation > 8) return 0;
+  if (separation > 5) return 2;
+  if (separation > 2) return 3;
+  return 4;
+}
+
 // Client
 if (process.env.NODE_ENV === "production") {
   console.log("Running in production");
@@ -53,7 +65,7 @@ io.on("connection", (socket) => {
 
   socket.on("send reveal", () => {
     gameState.isRevealed = true;
-    io.emit("receive reveal");
+    io.emit("receive reveal", getPoints());
   });
 
   socket.on("send new round", (score) => {
@@ -62,7 +74,7 @@ io.on("connection", (socket) => {
     wordSet = wordList.pop();
     gameState.wordSet = wordSet;
     io.emit("receive new round", score, wordSet);
-  })
+  });
 
   socket.on("send guess", (guess) => {
     gameState.guess = guess;
@@ -72,10 +84,10 @@ io.on("connection", (socket) => {
   socket.on("increment score", (teamId) => {
     gameState.teamScores[teamId] = gameState.teamScores[teamId] + 1;
     io.emit("receive score", gameState.teamScores);
-  })
+  });
 
   socket.on("decrement score", (teamId) => {
     gameState.teamScores[teamId] = gameState.teamScores[teamId] - 1;
     io.emit("receive score", gameState.teamScores);
-  })
+  });
 });

@@ -91,13 +91,14 @@ export default function Device({ socket }: DeviceProps) {
     return Math.random() * 360 + 180 + scoreRotationValue;
   };
 
-  const revealVisor = () => {
+  const revealScore = (points: number) => {
     setVisorRotationValue(MAX_VISOR);
+    console.log("Points scored: ", points);
   };
 
   const togglePeekVisor = () => {
     setVisorOpacity(visorOpacity === 1 ? 0.4 : 1);
-  }
+  };
 
   const startNewRound = (score: number, wordSet: string[]) => {
     setWordSet(wordSet);
@@ -145,7 +146,7 @@ export default function Device({ socket }: DeviceProps) {
     socket.on("initialize", initializeGame);
     socket.on("receive guess", setDialRotationValue);
     socket.on("receive new round", startNewRound);
-    socket.on("receive reveal", revealVisor);
+    socket.on("receive reveal", revealScore);
 
     return function cleanup() {
       socket.off("receive guess");
