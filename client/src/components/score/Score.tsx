@@ -15,7 +15,6 @@ type ScoreProps = {
   teamId: 0 | 1;
 };
 
-
 export default function Score({teamId, socket}: ScoreProps) {
   const classes = useStyles();
   const [score, setScore] = useState(0);

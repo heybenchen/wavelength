@@ -1,9 +1,9 @@
 import { Chip, makeStyles } from "@material-ui/core";
-import React, { useEffect, useState, SetStateAction } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
+import background from "../../images/background@2x.png";
 import Device from "../device/Device";
 import Score from "../score/Score";
-import background from "../../images/background.jpg";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -20,8 +20,8 @@ const useStyles = makeStyles({
     backgroundImage: `url(${background})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundBlendMode: "difference",
-    transition: "background-color 3s ease",
+    backgroundBlendMode: "exclusion",
+    backgroundColor: "#181d2d",
   },
   status: {
     display: "flex",
@@ -36,7 +36,6 @@ function App() {
   const classes = useStyles();
   const [connectedClients, setConnectedClients] = useState([""]);
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
-  const [backgroundColor, setBackgroundColor] = useState<string | undefined>();
 
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
@@ -47,43 +46,13 @@ function App() {
     });
     setSocket(socket);
 
-    socket.on("receive new round", () => {
-      setBackgroundColor(generateRandomColor());
-    });
-
     return function cleanup() {
       socket.disconnect();
     };
   }, []);
 
-  const generateRandomColor = () => {
-    return shuffle([
-      "aliceblue",
-      "ivory",
-      "blue",
-      "burlywood",
-      "yellow",
-      "tomato",
-      "orangered",
-      "pink",
-      "coral",
-      "dimgrey",
-      "darkorange",
-      "darkgreen",
-      "unset",
-    ]).pop();
-  };
-
-  const shuffle = (a: string[]) => {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
-
   return (
-    <div className={classes.root} style={{ backgroundColor }}>
+    <div className={classes.root}>
       <Device socket={socket} />
       <div className={classes.status}>
         <Score socket={socket} teamId={0} />
