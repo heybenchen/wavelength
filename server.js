@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").createServer(app);
 const path = require("path");
 const io = require("socket.io")(http);
-const wordList = require("./words");
+const wordList = require("./wordlist");
 
 const port = process.env.PORT || 9001;
 const connectedIds = {};
