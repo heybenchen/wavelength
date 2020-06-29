@@ -6,12 +6,14 @@ const io = require("socket.io")(http);
 const wordList = require("./wordlist");
 
 const port = process.env.PORT || 9001;
-const connectedIds = {};
-const gameState = {
+
+let connectedIds = {};
+let: gameState = {
   score: 0,
   guess: 0,
   isRevealed: false,
-  wordSet: wordList.pop(),
+  remainingWordList: Array.from(wordList),
+  wordSet: Array.from(wordList)[0],
   teamScores: [0, 0],
 };
 
@@ -25,6 +27,14 @@ function getPoints() {
   if (separation > 5) return 2;
   if (separation > 2) return 3;
   return 4;
+}
+
+function getNewWords() {
+  if (gameState.remainingWordList.length === 0) {
+    gameState.remainingWordList = Array.from(wordList);
+  }
+  gameState.wordSet = gameState.remainingWordList.pop();
+  return gameState.wordSet;
 }
 
 // Client
@@ -71,9 +81,7 @@ io.on("connection", (socket) => {
   socket.on("send new round", (score) => {
     gameState.score = score;
     gameState.isRevealed = false;
-    wordSet = wordList.pop();
-    gameState.wordSet = wordSet;
-    io.emit("receive new round", score, wordSet);
+    io.emit("receive new round", score, getNewWords());
   });
 
   socket.on("send guess", (guess) => {
