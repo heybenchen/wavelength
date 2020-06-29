@@ -25,9 +25,10 @@ const useStyles = makeStyles({
   },
   deviceImg: {
     position: "absolute",
-    width: "90vmin",
+    maxWidth: "90vmin",
+    maxHeight: "90vmin",
     height: "auto",
-    objectFit: "scale-down",
+    objectFit: "cover",
   },
   deviceScore: {
     transition: "transform 1.2s ease",
@@ -153,7 +154,6 @@ export default function Device({ socket }: DeviceProps) {
 
   return (
     <div className={classes.root}>
-      <Prompt wordSet={wordSet} />
       <div className={classes.deviceContainer}>
         <img
           className={classNames(classes.deviceImg, classes.deviceScore)}
@@ -190,6 +190,7 @@ export default function Device({ socket }: DeviceProps) {
           alt="Device Dial"
         />
       </div>
+      <Prompt wordSet={wordSet} />
       <div className={classes.buttonContainer}>
         <div className={classes.spacer}></div>
         <Button className={classes.button} variant="contained" onClick={togglePeekVisor}>

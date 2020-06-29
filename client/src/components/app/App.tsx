@@ -16,10 +16,6 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     fontSize: "calc(10px + 1.5vmin)",
-    // backgroundImage: `url(${background})`,
-    // backgroundPosition: "center",
-    // backgroundSize: "cover",
-    // backgroundBlendMode: "exclusion",
     backgroundColor: "#c2cdd4",
   },
   status: {
@@ -27,7 +23,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginBottom: "16px",
+    marginTop: "16px",
   },
 });
 
@@ -50,14 +46,22 @@ function App() {
     };
   }, []);
 
+  const getPlayersString = () => {
+    const playerCount = Object.keys(connectedClients).length;
+    if (playerCount <= 1) {
+      return "Waiting for players";
+    }
+    return `${playerCount} Players`;
+  };
+
   return (
     <div className={classes.root}>
-      <Device socket={socket} />
       <div className={classes.status}>
         <Score socket={socket} teamId={0} />
-        <Chip label={`Players: ${Object.keys(connectedClients).length}`} />
+        <Chip label={getPlayersString()} />
         <Score socket={socket} teamId={1} />
       </div>
+      <Device socket={socket} />
     </div>
   );
 }
