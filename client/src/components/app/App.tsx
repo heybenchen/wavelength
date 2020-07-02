@@ -1,68 +1,18 @@
-import { Chip, makeStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
-import Device from "../device/Device";
-import Score from "../score/Score";
-
-const DEVELOPMENT_PORT = ":9001";
-
-const useStyles = makeStyles({
-  root: {
-    textAlign: "center",
-    height: "100%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "calc(10px + 1.5vmin)",
-    backgroundColor: "#c2cdd4",
-  },
-  status: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    marginTop: "16px",
-  },
-});
+import React from "react";
+import Game from "../game/Game";
+import Home from "../home/Home";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
-  const classes = useStyles();
-  const [connectedClients, setConnectedClients] = useState([""]);
-  const [socket, setSocket] = useState<SocketIOClient.Socket>();
-
-  useEffect(() => {
-    const isDevelopmentMode = process.env.NODE_ENV === "development";
-    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected ids", (data: Object) => {
-      console.log("Connected IDs: ", Object.keys(data));
-      setConnectedClients(Object.keys(data));
-    });
-    setSocket(socket);
-
-    return function cleanup() {
-      socket.disconnect();
-    };
-  }, []);
-
-  const getPlayersString = () => {
-    const playerCount = Object.keys(connectedClients).length;
-    if (playerCount <= 1) {
-      return "Waiting for players";
-    }
-    return `${playerCount} Players`;
-  };
-
   return (
-    <div className={classes.root}>
-      <div className={classes.status}>
-        <Score socket={socket} teamId={0} />
-        <Chip label={getPlayersString()} />
-        <Score socket={socket} teamId={1} />
-      </div>
-      <Device socket={socket} />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/game/:id" children={<Game />}></Route>
+      </Switch>
+    </Router>
   );
 }
 

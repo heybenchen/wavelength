@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import React from "react";
 
 const useStyles = makeStyles({
@@ -6,7 +6,7 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "24px",
+    marginTop: "24px",
     margin: "auto",
     width: "280px",
   },
