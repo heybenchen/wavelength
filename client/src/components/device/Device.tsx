@@ -89,7 +89,11 @@ export default function Device({ socket }: DeviceProps) {
   };
 
   const randomScore = () => {
-    return Math.random() * 360 + 180 + scoreRotationValue;
+    let score = Math.random() * 360 + 180 + scoreRotationValue;
+    while (score % 180 > 77 && score % 180 < 103) {
+      score = randomScore();
+    }
+    return score;
   };
 
   const revealScore = (points: number) => {
@@ -154,6 +158,7 @@ export default function Device({ socket }: DeviceProps) {
 
   return (
     <div className={classes.root}>
+      <Prompt wordSet={wordSet} />
       <div className={classes.deviceContainer}>
         <img
           className={classNames(classes.deviceImg, classes.deviceScore)}
@@ -190,7 +195,6 @@ export default function Device({ socket }: DeviceProps) {
           alt="Device Dial"
         />
       </div>
-      <Prompt wordSet={wordSet} />
       <div className={classes.buttonContainer}>
         <div className={classes.spacer}></div>
         <Button className={classes.button} variant="contained" onClick={togglePeekVisor}>
