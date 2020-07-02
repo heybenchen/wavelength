@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("decrement score", (teamId) => {
-    gameState.teamScores[teamId] = gameState.teamScores[teamId] - 1;
+    gameState.teamScores[teamId] = Math.max(gameState.teamScores[teamId] - 1, 0);
     io.emit("receive score", gameState.teamScores);
   });
 });
