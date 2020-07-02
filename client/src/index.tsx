@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Game from "./components/game/Game";
+import App from "./components/app/App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
@@ -10,7 +10,7 @@ ReactDOM.render(
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
-    <Game />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -73,6 +73,10 @@ io.on("connection", (socket) => {
     io.emit("connected ids", connectedIds);
   });
 
+  socket.on("join room", (room) => {
+    socket.join(room);
+  });
+
   socket.on("send reveal", () => {
     gameState.isRevealed = true;
     io.emit("receive reveal", getPoints());

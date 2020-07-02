@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Device from "../device/Device";
 import Score from "../score/Score";
+import { useParams } from "react-router-dom";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -29,16 +30,15 @@ const useStyles = makeStyles({
 
 function Game() {
   const classes = useStyles();
+  const { roomId } = useParams();
   const [connectedClients, setConnectedClients] = useState([""]);
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
 
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
     const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected ids", (data: Object) => {
-      console.log("Connected IDs: ", Object.keys(data));
-      setConnectedClients(Object.keys(data));
-    });
+    socket.on("connected ids", (data: Object) => setConnectedClients(Object.keys(data)));
+    socket.on("connect", () => socket.emit("join room", roomId));
     setSocket(socket);
 
     return function cleanup() {
