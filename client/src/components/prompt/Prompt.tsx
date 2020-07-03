@@ -9,6 +9,8 @@ const useStyles = makeStyles({
     marginTop: "24px",
     margin: "auto",
     width: "280px",
+    boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.25)",
+    borderRadius: "8px",
   },
   cardText: {
     fontSize: "18px",

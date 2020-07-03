@@ -26,6 +26,14 @@ const useStyles = makeStyles({
     width: "100%",
     marginTop: "16px",
   },
+  teamContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  playerName: {
+    fontSize: "8px",
+    marginTop: "8px",
+  },
 });
 
 function Game() {
@@ -54,12 +62,26 @@ function Game() {
     return `${playerCount} Players`;
   };
 
+  const connectedClientNames = Object.values(connectedClients).map((client, index) => {
+    return (
+      <div key={index} className={classes.playerName}>
+        {client}
+      </div>
+    );
+  });
+
   return (
     <div className={classes.root}>
       <div className={classes.status}>
-        <Score socket={socket} teamId={0} />
+        <div className={classes.teamContainer}>
+          <Score socket={socket} teamId={0} />
+          {connectedClientNames}
+        </div>
         <Chip label={getPlayersString()} />
-        <Score socket={socket} teamId={1} />
+        <div className={classes.teamContainer}>
+          <Score socket={socket} teamId={1} />
+          {connectedClientNames}
+        </div>
       </div>
       <Device socket={socket} />
     </div>
