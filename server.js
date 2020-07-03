@@ -3,35 +3,53 @@ const app = express();
 const http = require("http").createServer(app);
 const path = require("path");
 const io = require("socket.io")(http);
-const wordList = require("./wordlist");
+const generateWordList = require("./wordlist");
 
 const port = process.env.PORT || 9001;
 
-let connectedIds = {};
-let: gameState = {
-  score: 0,
-  guess: 0,
-  isRevealed: false,
-  remainingWordList: Array.from(wordList),
-  wordSet: Array.from(wordList)[0],
-  teamScores: [0, 0],
-};
+let connections = new Map();
 
-function getPoints() {
+function initializeRoom() {
+  return {
+    connectedIds: {},
+    gameState: {
+      score: 0,
+      guess: 0,
+      isRevealed: false,
+      remainingWordList: Array.from(generateWordList()),
+      wordSet: Array.from(generateWordList())[0],
+      teamScores: [0, 0],
+    },
+  };
+}
+
+function getGameState(room) {
+  if (connections.has(room)) {
+    return connections.get(room).gameState;
+  }
+}
+
+function getConnectedIds(room) {
+  if (connections.has(room)) {
+    return connections.get(room).connectedIds;
+  }
+}
+
+function getPoints(gameState) {
   let modScore = (gameState.score % 360) % 180;
   let normalizedGuess = gameState.guess < 0 ? gameState.guess + 360 : gameState.guess;
   let modGuess = normalizedGuess % 180;
   let separation = Math.ceil(Math.abs(modGuess - modScore) / 2.5);
-  console.log(modScore, modGuess, separation);
+  console.debug(`Score: ${modScore}, Guess: ${modGuess}, Separation: ${separation}`);
   if (separation > 8) return 0;
   if (separation > 5) return 2;
   if (separation > 2) return 3;
   return 4;
 }
 
-function getNewWords() {
+function getNewWords(gameState) {
   if (gameState.remainingWordList.length === 0) {
-    gameState.remainingWordList = Array.from(wordList);
+    gameState.remainingWordList = Array.from(generateWordList());
   }
   gameState.wordSet = gameState.remainingWordList.pop();
   return gameState.wordSet;
@@ -62,44 +80,53 @@ http.listen(port, () => {
 
 // Socket IO
 io.on("connection", (socket) => {
-  console.log("a user connected: ", socket.id);
-  connectedIds[socket.id] = true;
-  io.emit("connected ids", connectedIds);
-  io.emit("initialize", gameState);
+  let currentRoom = "";
 
   socket.on("disconnect", () => {
-    console.log("user disconnected: ", socket.id);
-    delete connectedIds[socket.id];
-    io.emit("connected ids", connectedIds);
+    console.log(`User ${socket.id} left room "${currentRoom}"`);
+    delete getConnectedIds(currentRoom)[socket.id];
+    io.in(currentRoom).emit("connected ids", getConnectedIds(currentRoom));
   });
 
   socket.on("join room", (room) => {
+    console.log(`User ${socket.id} joined room "${room}"`);
+    currentRoom = room;
+    if (!connections.has(room)) {
+      connections.set(room, initializeRoom());
+    }
     socket.join(room);
+    getConnectedIds(currentRoom)[socket.id] = true;
+    io.in(currentRoom).emit("initialize", getGameState(currentRoom));
+    io.in(currentRoom).emit("connected ids", getConnectedIds(currentRoom));
   });
 
   socket.on("send reveal", () => {
-    gameState.isRevealed = true;
-    io.emit("receive reveal", getPoints());
+    getGameState(currentRoom).isRevealed = true;
+    const points = getPoints(getGameState(currentRoom));
+    io.in(currentRoom).emit("receive reveal", points);
   });
 
   socket.on("send new round", (score) => {
-    gameState.score = score;
-    gameState.isRevealed = false;
-    io.emit("receive new round", score, getNewWords());
+    getGameState(currentRoom).score = score;
+    getGameState(currentRoom).isRevealed = false;
+    io.in(currentRoom).emit("receive new round", score, getNewWords(getGameState(currentRoom)));
   });
 
   socket.on("send guess", (guess) => {
-    gameState.guess = guess;
-    io.emit("receive guess", guess);
+    getGameState(currentRoom).guess = guess;
+    io.in(currentRoom).emit("receive guess", guess);
   });
 
   socket.on("increment score", (teamId) => {
-    gameState.teamScores[teamId] = gameState.teamScores[teamId] + 1;
-    io.emit("receive score", gameState.teamScores);
+    getGameState(currentRoom).teamScores[teamId] = getGameState(currentRoom).teamScores[teamId] + 1;
+    io.in(currentRoom).emit("receive score", getGameState(currentRoom).teamScores);
   });
 
   socket.on("decrement score", (teamId) => {
-    gameState.teamScores[teamId] = Math.max(gameState.teamScores[teamId] - 1, 0);
-    io.emit("receive score", gameState.teamScores);
+    getGameState(currentRoom).teamScores[teamId] = Math.max(
+      getGameState(currentRoom).teamScores[teamId] - 1,
+      0
+    );
+    io.in(currentRoom).emit("receive score", getGameState(currentRoom).teamScores);
   });
 });

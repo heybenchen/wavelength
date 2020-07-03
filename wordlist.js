@@ -3,7 +3,11 @@
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
  * @param {Array} a items An array containing the items.
  */
-function shuffle(a) {
+module.exports = function generateWordList() {
+  return shuffleArray(words);
+};
+
+function shuffleArray(a) {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
@@ -11,7 +15,7 @@ function shuffle(a) {
   return a;
 }
 
-module.exports = shuffle([
+const words = [
   ["Bad", "Good"],
   ["Mildly addictive", "Highly addictive"],
   ["Hot", "Cold"],
@@ -264,4 +268,4 @@ module.exports = shuffle([
   ["Person you could beat up", "Person who’d beat you up"],
   ["Unreasonable phobia", "Reasonable phobia"],
   ["Underrated game", "Overrated game"],
-]);
+];
