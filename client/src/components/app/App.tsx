@@ -10,7 +10,7 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/game/:roomId" children={<Game />} />
+        <Route path="/:roomId" children={<Game />} />
       </Switch>
     </Router>
   );
