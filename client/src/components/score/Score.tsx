@@ -7,7 +7,7 @@ const useStyles = makeStyles({
   },
   button: {
     minWidth: "10px",
-  }
+  },
 });
 
 type ScoreProps = {
@@ -15,21 +15,24 @@ type ScoreProps = {
   teamId: 0 | 1;
 };
 
-export default function Score({teamId, socket}: ScoreProps) {
+export default function Score({ teamId, socket }: ScoreProps) {
   const classes = useStyles();
   const [score, setScore] = useState(0);
 
-  const updateScore = useCallback((teamScores: number[]) => {
-    setScore(teamScores[teamId]);
-  }, [teamId]);
+  const updateScore = useCallback(
+    (teamScores: number[]) => {
+      setScore(teamScores[teamId]);
+    },
+    [teamId]
+  );
 
   const incrementScore = () => {
     socket && socket.emit("increment score", teamId);
-  }
+  };
 
   const decrementScore = () => {
     socket && socket.emit("decrement score", teamId);
-  }
+  };
 
   useEffect(() => {
     if (!socket) return;
@@ -42,10 +45,21 @@ export default function Score({teamId, socket}: ScoreProps) {
   }, [socket, updateScore]);
 
   return (
-    <ButtonGroup className={classes.root} size="small" variant="contained" color={teamId ? "primary" : "secondary"}>
-      <Button className={classes.button} onClick={decrementScore}>-</Button>
-      <Button className={classes.button} variant="contained">{score}</Button>
-      <Button className={classes.button} onClick={incrementScore}>+</Button>
+    <ButtonGroup
+      className={classes.root}
+      size="small"
+      variant="contained"
+      color={teamId ? "primary" : "secondary"}
+    >
+      <Button className={classes.button} onClick={decrementScore}>
+        -
+      </Button>
+      <Button className={classes.button} variant="contained">
+        {score}
+      </Button>
+      <Button className={classes.button} onClick={incrementScore}>
+        +
+      </Button>
     </ButtonGroup>
   );
 }

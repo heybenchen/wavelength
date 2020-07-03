@@ -44,7 +44,7 @@ function Game() {
     return function cleanup() {
       socket.disconnect();
     };
-  }, []);
+  }, [roomId]);
 
   const getPlayersString = () => {
     const playerCount = Object.keys(connectedClients).length;

@@ -13,7 +13,7 @@ function initializeRoom() {
   return {
     connectedIds: {},
     gameState: {
-      score: 0,
+      answer: 0,
       guess: 0,
       isRevealed: false,
       remainingWordList: Array.from(generateWordList()),
@@ -36,11 +36,11 @@ function getConnectedIds(room) {
 }
 
 function getPoints(gameState) {
-  let modScore = (gameState.score % 360) % 180;
+  let modAnswer = (gameState.answer % 360) % 180;
   let normalizedGuess = gameState.guess < 0 ? gameState.guess + 360 : gameState.guess;
   let modGuess = normalizedGuess % 180;
-  let separation = Math.ceil(Math.abs(modGuess - modScore) / 2.5);
-  console.debug(`Score: ${modScore}, Guess: ${modGuess}, Separation: ${separation}`);
+  let separation = Math.ceil(Math.abs(modGuess - modAnswer) / 2.5);
+  console.debug(`Answer: ${modAnswer}, Guess: ${modGuess}, Separation: ${separation}`);
   if (separation > 8) return 0;
   if (separation > 5) return 2;
   if (separation > 2) return 3;
@@ -106,10 +106,10 @@ io.on("connection", (socket) => {
     io.in(currentRoom).emit("receive reveal", points);
   });
 
-  socket.on("send new round", (score) => {
-    getGameState(currentRoom).score = score;
+  socket.on("send new round", (answer) => {
+    getGameState(currentRoom).answer = answer;
     getGameState(currentRoom).isRevealed = false;
-    io.in(currentRoom).emit("receive new round", score, getNewWords(getGameState(currentRoom)));
+    io.in(currentRoom).emit("receive new round", answer, getNewWords(getGameState(currentRoom)));
   });
 
   socket.on("send guess", (guess) => {

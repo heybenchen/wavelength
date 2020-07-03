@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     height: "auto",
     objectFit: "cover",
   },
-  deviceScore: {
+  deviceAnswer: {
     transition: "transform 1.2s ease",
   },
   deviceCover: {},
@@ -65,7 +65,7 @@ type DeviceProps = {
 
 export default function Device({ socket }: DeviceProps) {
   const classes = useStyles();
-  const [scoreRotationValue, setScoreRotationValue] = React.useState(0);
+  const [answerRotationValue, setAnswerRotationValue] = React.useState(0);
   const [dialRotationValue, setDialRotationValue] = React.useState(0);
   const [visorRotationValue, setVisorRotationValue] = React.useState(0);
   const [visorAnimationDuration, setVisorAnimationDuration] = React.useState(2);
@@ -73,14 +73,14 @@ export default function Device({ socket }: DeviceProps) {
   const [wordSet, setWordSet] = React.useState([""]);
 
   type GameState = {
-    score: number;
+    answer: number;
     guess: number;
     isRevealed: boolean;
     wordSet: string[];
   };
 
-  const initializeGame = ({ score, guess, isRevealed, wordSet }: GameState) => {
-    setScoreRotationValue(score);
+  const initializeGame = ({ answer, guess, isRevealed, wordSet }: GameState) => {
+    setAnswerRotationValue(answer);
     setDialRotationValue(guess);
     setWordSet(wordSet);
     window.setTimeout(() => {
@@ -88,15 +88,15 @@ export default function Device({ socket }: DeviceProps) {
     }, 1000);
   };
 
-  const randomScore = () => {
-    let score = Math.random() * 360 + 180 + scoreRotationValue;
-    while (score % 180 > 77 && score % 180 < 103) {
-      score = randomScore();
+  const randomAnswer = () => {
+    let answer = Math.random() * 360 + 180 + answerRotationValue;
+    while (answer % 180 > 77 && answer % 180 < 103) {
+      answer = randomAnswer();
     }
-    return score;
+    return answer;
   };
 
-  const revealScore = (points: number) => {
+  const revealAnswer = (points: number) => {
     setVisorRotationValue(MAX_VISOR);
     console.log("Points scored: ", points);
   };
@@ -105,7 +105,7 @@ export default function Device({ socket }: DeviceProps) {
     setVisorOpacity(visorOpacity === 1 ? 0.4 : 1);
   };
 
-  const startNewRound = (score: number, wordSet: string[]) => {
+  const startNewRound = (answer: number, wordSet: string[]) => {
     setWordSet(wordSet);
     setVisorOpacity(1);
     setVisorRotationValue(0);
@@ -113,7 +113,7 @@ export default function Device({ socket }: DeviceProps) {
     setDialRotationValue(0);
     window.setTimeout(() => {
       setVisorAnimationDuration(2);
-      setScoreRotationValue(score);
+      setAnswerRotationValue(answer);
     }, 600);
   };
 
@@ -129,7 +129,7 @@ export default function Device({ socket }: DeviceProps) {
   };
 
   const emitNewRound = () => {
-    socket && socket.emit("send new round", randomScore());
+    socket && socket.emit("send new round", randomAnswer());
   };
 
   const emitGuess = (guess: number) => {
@@ -146,7 +146,7 @@ export default function Device({ socket }: DeviceProps) {
     socket.on("initialize", initializeGame);
     socket.on("receive guess", setDialRotationValue);
     socket.on("receive new round", startNewRound);
-    socket.on("receive reveal", revealScore);
+    socket.on("receive reveal", revealAnswer);
 
     return function cleanup() {
       socket.off("receive guess");
@@ -161,12 +161,12 @@ export default function Device({ socket }: DeviceProps) {
       <Prompt wordSet={wordSet} />
       <div className={classes.deviceContainer}>
         <img
-          className={classNames(classes.deviceImg, classes.deviceScore)}
+          className={classNames(classes.deviceImg, classes.deviceAnswer)}
           style={{
-            transform: `rotate(${scoreRotationValue}deg)`,
+            transform: `rotate(${answerRotationValue}deg)`,
           }}
           src={deviceTarget}
-          alt="Device Score"
+          alt="Device Answer"
         />
         <img
           className={classNames(classes.deviceImg, classes.deviceVisor)}
