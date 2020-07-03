@@ -22,8 +22,8 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    bottom: "-34vh",
-    position: "absolute",
+    // bottom: "-34vh",
+    // position: "absolute",
   },
   deviceImg: {
     position: "absolute",

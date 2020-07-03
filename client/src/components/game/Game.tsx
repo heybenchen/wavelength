@@ -32,7 +32,6 @@ const useStyles = makeStyles({
   },
   playerName: {
     fontSize: "8px",
-    marginTop: "8px",
   },
 });
 
@@ -65,7 +64,7 @@ function Game() {
   const connectedClientNames = Object.values(connectedClients).map((client, index) => {
     return (
       <div key={index} className={classes.playerName}>
-        {client}
+        {/* {client} */}
       </div>
     );
   });
