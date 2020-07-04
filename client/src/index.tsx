@@ -5,13 +5,13 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
     <App />
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById("root")
 );
 
