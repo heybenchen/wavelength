@@ -2,6 +2,20 @@ const generateWordList = require("./wordlist");
 
 //TODO: Refactor this into a class that can manage its own state
 
+type Room = {
+  connectedIds: string[];
+  gameState: GameState;
+};
+
+type GameState = {
+  answer: number;
+  guess: number;
+  isRevealed: boolean;
+  remainingWordList: string[][];
+  wordSet: string[] | undefined;
+  teamScores: number[];
+};
+
 module.exports = {
   initializeRoom() {
     return {
@@ -17,19 +31,17 @@ module.exports = {
     };
   },
 
-  getGameState(connections, room) {
-    if (connections.has(room)) {
-      return connections.get(room).gameState;
-    }
+  getGameState(connections: Map<string, Room>, room: string) {
+    let connectedRoom = connections.get(room);
+    return connectedRoom && connectedRoom.gameState;
   },
 
-  getConnectedIds(connections, room) {
-    if (connections.has(room)) {
-      return connections.get(room).connectedIds;
-    }
+  getConnectedIds(connections: Map<string, Room>, room: string) {
+    let connectedRoom = connections.get(room);
+    return connectedRoom && connectedRoom.connectedIds;
   },
 
-  getPoints(gameState) {
+  getPoints(gameState: GameState) {
     let modAnswer = (gameState.answer % 360) % 180;
     let normalizedGuess = gameState.guess < 0 ? gameState.guess + 360 : gameState.guess;
     let modGuess = normalizedGuess % 180;
@@ -41,7 +53,7 @@ module.exports = {
     return 4;
   },
 
-  getNewWords(gameState) {
+  getNewWords(gameState: GameState) {
     if (gameState.remainingWordList.length === 0) {
       gameState.remainingWordList = Array.from(generateWordList());
     }

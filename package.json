@@ -15,11 +15,11 @@
     "typescript": "^3.9.6"
   },
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "ts-node-dev --respawn --transpileOnly server.ts",
     "client": "cd client && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "dev:server": "cd client && yarn build && cd .. && yarn start",
-    "start": "node server.js",
+    "start": "tsc && node server.js",
     "build": "cd client && yarn install && yarn build",
     "tsc": "tsc"
   },

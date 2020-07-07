@@ -7,7 +7,7 @@ const GameUtils = require("./gameUtils");
 
 const port = process.env.PORT || 9001;
 
-let connections = new Map();
+let connections = new Map<string, Room>();
 
 // Serve React client
 if (process.env.NODE_ENV === "production") {
@@ -17,13 +17,13 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
   // Handle React routing, return all requests to React app
-  app.get("*", function (req, res) {
+  app.get("*", function (_req: any, res: any) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 } else {
   console.log("Running in development");
 
-  app.get("/", (req, res) => {
+  app.get("/", (_req: any, res: any) => {
     res.sendFile(__dirname + "/index.html");
   });
 }
@@ -33,7 +33,7 @@ http.listen(port, () => {
 });
 
 // Socket IO
-io.on("connection", (socket) => {
+io.on("connection", (socket: SocketIO.Socket) => {
   let currentRoom = "";
 
   socket.on("disconnect", () => {
@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
     io.in(currentRoom).emit("connected ids", GameUtils.getConnectedIds(connections, currentRoom));
   });
 
-  socket.on("join room", (room) => {
+  socket.on("join room", (room: string) => {
     console.log(`User ${socket.id} joined room "${room}"`);
     currentRoom = room;
     if (!connections.has(room)) {
@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
     io.in(currentRoom).emit("receive reveal", points);
   });
 
-  socket.on("send new round", (answer) => {
+  socket.on("send new round", (answer: number) => {
     GameUtils.getGameState(connections, currentRoom).answer = answer;
     GameUtils.getGameState(connections, currentRoom).isRevealed = false;
     io.in(currentRoom).emit(
@@ -70,12 +70,12 @@ io.on("connection", (socket) => {
     );
   });
 
-  socket.on("send guess", (guess) => {
+  socket.on("send guess", (guess: number) => {
     GameUtils.getGameState(connections, currentRoom).guess = guess;
     io.in(currentRoom).emit("receive guess", guess);
   });
 
-  socket.on("increment score", (teamId) => {
+  socket.on("increment score", (teamId: number) => {
     GameUtils.getGameState(connections, currentRoom).teamScores[teamId] =
       GameUtils.getGameState(connections, currentRoom).teamScores[teamId] + 1;
     io.in(currentRoom).emit(
@@ -84,7 +84,7 @@ io.on("connection", (socket) => {
     );
   });
 
-  socket.on("decrement score", (teamId) => {
+  socket.on("decrement score", (teamId: number) => {
     GameUtils.getGameState(connections, currentRoom).teamScores[teamId] = Math.max(
       GameUtils.getGameState(connections, currentRoom).teamScores[teamId] - 1,
       0
