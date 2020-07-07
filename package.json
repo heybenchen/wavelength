@@ -6,6 +6,8 @@
   "private": true,
   "dependencies": {
     "@types/node": "^14.0.19",
+    "@types/express": "^4.17.7",
+    "@types/socket.io": "^2.1.8",
     "concurrently": "^5.2.0",
     "express": "^4.17.1",
     "install": "^0.13.0",
@@ -24,10 +26,7 @@
     "build": "cd client && yarn install && yarn build",
     "tsc": "tsc"
   },
-  "devDependencies": {
-    "@types/express": "^4.17.7",
-    "@types/socket.io": "^2.1.8"
-  },
+  "devDependencies": {},
   "engines": {
     "node": "14.x",
     "yarn": "1.x"

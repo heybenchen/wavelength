@@ -34,7 +34,7 @@ http.listen(port, () => {
 });
 
 // Socket IO
-io.on("connection", (socket: any) => {
+io.on("connection", (socket: SocketIO.Socket) => {
   let currentRoom = "";
 
   socket.on("disconnect", () => {
