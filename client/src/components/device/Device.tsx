@@ -120,6 +120,8 @@ export default function Device({ socket }: DeviceProps) {
   };
 
   const handleDeviceClick = (event: React.MouseEvent) => {
+    if (visorRotationValue > 0) return;
+
     let { left, width } = event.currentTarget.getBoundingClientRect();
     let percentage = (event.clientX - left) / width;
     let guess = (percentage * 160 - 80) * 1.2;
