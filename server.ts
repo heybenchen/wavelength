@@ -1,13 +1,14 @@
-const express = require("express");
+import express from "express";
+import path from "path";
+import Room from "./Room";
+
 const app = express();
 const http = require("http").createServer(app);
-const path = require("path");
 const io = require("socket.io")(http);
-const Room = require("./Room");
 
 const port = process.env.PORT || 9001;
 
-let connections = new Map<string, typeof Room>();
+let connections = new Map<string, Room>();
 
 // Serve React client
 if (process.env.NODE_ENV === "production") {

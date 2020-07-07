@@ -1,4 +1,4 @@
-const generateWordList = require("./wordlist");
+import generateWordList from "./wordlist";
 
 type GameState = {
   answer: number;
@@ -9,7 +9,7 @@ type GameState = {
   teamScores: number[];
 };
 
-module.exports = class {
+export default class Room {
   connectedIds: any;
   gameState: GameState;
 
@@ -54,4 +54,4 @@ module.exports = class {
   decrementScore(teamId: number) {
     this.gameState.teamScores[teamId] = Math.max(this.gameState.teamScores[teamId] - 1, 0);
   }
-};
+}
