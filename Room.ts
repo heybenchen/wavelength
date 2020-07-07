@@ -17,7 +17,7 @@ export default class Room {
     let wordList: string[][] = Array.from(generateWordList());
     this.connectedIds = {};
     this.gameState = {
-      answer: 0,
+      answer: Math.random() * 360,
       guess: 0,
       isRevealed: false,
       remainingWordList: wordList,
