@@ -39,8 +39,8 @@ io.on("connection", (socket: SocketIO.Socket) => {
 
   socket.on("disconnect", () => {
     console.log(`User ${socket.id} left room "${currentRoom}"`);
-    delete connections.get(currentRoom)?.connectedIds[socket.id];
-    io.in(currentRoom).emit("connected ids", connections.get(currentRoom)?.connectedIds[socket.id]);
+    delete connections.get(currentRoom)?.sockets[socket.id];
+    io.in(currentRoom).emit("connected ids", connections.get(currentRoom)?.sockets[socket.id]);
   });
 
   socket.on("join room", (room: string) => {
@@ -54,9 +54,9 @@ io.on("connection", (socket: SocketIO.Socket) => {
     let connection = connections.get(currentRoom);
     if (!connection) return;
 
-    connection.connectedIds[socket.id] = true;
+    connection.sockets[socket.id] = true;
     io.in(currentRoom).emit("initialize", connection.gameState);
-    io.in(currentRoom).emit("connected ids", connection.connectedIds);
+    io.in(currentRoom).emit("connected ids", connection.sockets);
   });
 
   socket.on("send reveal", () => {

@@ -1,29 +1,41 @@
 import generateWordList from "./wordlist";
 
-type GameState = {
+class Player {
+  name: string;
+  teamId: number;
+
+  constructor(name: string, teamId: number) {
+    this.name = name;
+    this.teamId = teamId;
+  }
+}
+class GameState {
   answer: number;
   guess: number;
   isRevealed: boolean;
   remainingWordList: string[][];
   wordSet: string[] | undefined;
   teamScores: number[];
-};
-
-export default class Room {
-  connectedIds: any;
-  gameState: GameState;
 
   constructor() {
     let wordList: string[][] = Array.from(generateWordList());
-    this.connectedIds = {};
-    this.gameState = {
-      answer: Math.random() * 360,
-      guess: 0,
-      isRevealed: false,
-      remainingWordList: wordList,
-      wordSet: wordList[0],
-      teamScores: [0, 0],
-    };
+
+    this.answer = Math.random() * 360;
+    this.guess = 0;
+    this.isRevealed = false;
+    this.remainingWordList = wordList;
+    this.wordSet = wordList[0];
+    this.teamScores = [0, 0];
+  }
+}
+
+export default class Room {
+  sockets: any;
+  gameState: GameState;
+
+  constructor() {
+    this.sockets = {};
+    this.gameState = new GameState();
   }
 
   getPoints() {
