@@ -38,7 +38,15 @@ export default class Room {
     this.gameState = new GameState();
   }
 
-  getPoints() {
+  addPlayer(socket: SocketIO.Socket, name: string, teamId: number) {
+    this.sockets[socket.id] = new Player(name, teamId);
+  }
+
+  removePlayer(socket: SocketIO.Socket) {
+    delete this.sockets[socket.id];
+  }
+
+  calculatePoints() {
     let modAnswer = (this.gameState.answer % 360) % 180;
     let normalizedGuess =
       this.gameState.guess < 0 ? this.gameState.guess + 360 : this.gameState.guess;
@@ -51,7 +59,7 @@ export default class Room {
     return 4;
   }
 
-  getNewWords() {
+  generateNewWords() {
     if (this.gameState.remainingWordList.length === 0) {
       this.gameState.remainingWordList = Array.from(generateWordList());
     }
