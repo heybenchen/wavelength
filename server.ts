@@ -48,7 +48,7 @@ io.on("connection", (socket: SocketIO.Socket) => {
   });
 
   socket.on("join room", (room: string, name: string, teamId: number) => {
-    console.log(`User ${socket.id} joined room "${room}"`);
+    console.log(`Socket ${socket.id} joined room "${room}" with name "${name}" on team ${teamId}`);
     currentRoom = room;
 
     if (!connections.has(room)) {

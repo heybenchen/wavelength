@@ -56,18 +56,19 @@ function Game() {
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [teamId, setTeamId] = React.useState(-1);
-  const [userName, setUserName] = React.useState("");
+  const [playerName, setPlayerName] = React.useState("");
 
-  const handleDialogOpen = () => {
+  const handlePlayerInfoOpen = () => {
     setDialogOpen(true);
   };
 
-  const handleDialogClose = () => {
+  const handlePlayerInfoSave = () => {
     setDialogOpen(false);
+    socket && socket.emit("join room", roomId, playerName, teamId);
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName((event.target as HTMLInputElement).value);
+    setPlayerName((event.target as HTMLInputElement).value);
   };
 
   const handleTeamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +79,7 @@ function Game() {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
     const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
     socket.on("connected ids", (data: Object) => setConnectedClients(Object.keys(data)));
-    socket.on("connect", () => socket.emit("join room", roomId));
+    socket.on("connect", () => setDialogOpen(true));
     setSocket(socket);
 
     return function cleanup() {
@@ -109,7 +110,7 @@ function Game() {
           <Score socket={socket} teamId={0} />
           {connectedClientNames}
         </div>
-        <Chip label={getPlayersString()} onClick={handleDialogOpen} />
+        <Chip label={getPlayersString()} onClick={handlePlayerInfoOpen} />
         <div className={classes.teamContainer}>
           <Score socket={socket} teamId={1} />
           {connectedClientNames}
@@ -128,8 +129,9 @@ function Game() {
               id="name"
               label="Your name"
               type="text"
-              value={userName}
+              value={playerName}
               fullWidth
+              autoComplete="off"
             />
             <Box m={1} />
             <FormControl component="fieldset">
@@ -141,7 +143,11 @@ function Game() {
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleDialogClose} color="primary">
+            <Button
+              onClick={handlePlayerInfoSave}
+              color="primary"
+              disabled={!playerName || teamId === -1}
+            >
               Save
             </Button>
           </DialogActions>
