@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   status: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "top",
     width: "100%",
     marginTop: "16px",
   },
@@ -46,73 +46,111 @@ const useStyles = makeStyles({
   },
   playerName: {
     fontSize: "8px",
+    marginTop: "4px",
   },
 });
+
+type Player = {
+  name: string;
+  teamId: number;
+};
 
 function Game() {
   const classes = useStyles();
   const { roomId } = useParams();
-  const [connectedClients, setConnectedClients] = useState([""]);
+  const [connectedClients, setConnectedClients] = useState<{ [key: string]: Player }>({});
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [playerName, setPlayerName] = React.useState("");
   const [teamId, setTeamId] = React.useState(-1);
-  const [userName, setUserName] = React.useState("");
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
+  const getClientsInTeam = (teamId: number) => {
+    const clients: { [key: string]: Player } = {};
+    for (const [socketId, player] of Object.entries(connectedClients)) {
+      if (player.teamId === teamId) clients[socketId] = player;
+    }
+    return clients;
   };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName((event.target as HTMLInputElement).value);
-  };
-
-  const handleTeamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTeamId(parseInt((event.target as HTMLInputElement).value));
-  };
-
-  useEffect(() => {
-    const isDevelopmentMode = process.env.NODE_ENV === "development";
-    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected ids", (data: Object) => setConnectedClients(Object.keys(data)));
-    socket.on("connect", () => socket.emit("join room", roomId));
-    setSocket(socket);
-
-    return function cleanup() {
-      socket.disconnect();
-    };
-  }, [roomId]);
 
   const getPlayersString = () => {
     const playerCount = Object.keys(connectedClients).length;
     if (playerCount <= 1) {
       return "Waiting for players";
     }
-    return `${playerCount} Players`;
+    return `${playerCount} Players.`;
   };
 
-  const connectedClientNames = Object.values(connectedClients).map((client, index) => {
-    return (
-      <div key={index} className={classes.playerName}>
-        {/* {client} */}
-      </div>
-    );
-  });
+  const getPlayerNames = (teamId: number) => {
+    return Object.values(getClientsInTeam(teamId)).map((player, index) => {
+      return (
+        <div key={index} className={classes.playerName}>
+          {player.name}
+        </div>
+      );
+    });
+  };
+
+  const handlePlayerInfoOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handlePlayerInfoSave = () => {
+    setDialogOpen(false);
+    persistPlayerInfo();
+    socket && socket.emit("join room", roomId, playerName, teamId);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPlayerName((event.target as HTMLInputElement).value);
+  };
+
+  const handleTeamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTeamId(parseInt((event.target as HTMLInputElement).value));
+  };
+
+  const persistPlayerInfo = () => {
+    sessionStorage.setItem("playerName", playerName);
+    sessionStorage.setItem("teamId", teamId.toString());
+  };
+
+  const retrievePlayerInfo = () => {
+    let playerName = sessionStorage.getItem("playerName") || "";
+    let teamId = parseInt(sessionStorage.getItem("teamId") || "-1");
+    console.log(`Restoring player "${playerName}" on the ${teamId ? "Blue" : "Red"} Team`);
+    setPlayerName(playerName);
+    setTeamId(teamId);
+    return [playerName, teamId];
+  };
+
+  useEffect(() => {
+    const isDevelopmentMode = process.env.NODE_ENV === "development";
+    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
+    socket.on("connected ids", setConnectedClients);
+    setSocket(socket);
+
+    const [playerName, teamId] = retrievePlayerInfo();
+    if (!playerName || teamId === -1) {
+      setDialogOpen(true);
+    } else {
+      socket && socket.emit("join room", roomId, playerName, teamId);
+    }
+
+    return function cleanup() {
+      socket.disconnect();
+    };
+  }, [roomId]);
 
   return (
     <div className={classes.root}>
       <div className={classes.status}>
         <div className={classes.teamContainer}>
           <Score socket={socket} teamId={0} />
-          {connectedClientNames}
+          {getPlayerNames(0)}
         </div>
-        <Chip label={getPlayersString()} onClick={handleDialogOpen} />
+        <Chip label={getPlayersString()} onClick={handlePlayerInfoOpen} />
         <div className={classes.teamContainer}>
           <Score socket={socket} teamId={1} />
-          {connectedClientNames}
+          {getPlayerNames(1)}
         </div>
       </div>
       <Device socket={socket} />
@@ -128,8 +166,9 @@ function Game() {
               id="name"
               label="Your name"
               type="text"
-              value={userName}
+              value={playerName}
               fullWidth
+              autoComplete="off"
             />
             <Box m={1} />
             <FormControl component="fieldset">
@@ -141,7 +180,11 @@ function Game() {
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleDialogClose} color="primary">
+            <Button
+              onClick={handlePlayerInfoSave}
+              color="primary"
+              disabled={!playerName || teamId === -1}
+            >
               Save
             </Button>
           </DialogActions>

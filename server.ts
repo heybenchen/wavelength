@@ -39,12 +39,16 @@ io.on("connection", (socket: SocketIO.Socket) => {
 
   socket.on("disconnect", () => {
     console.log(`User ${socket.id} left room "${currentRoom}"`);
-    delete connections.get(currentRoom)?.connectedIds[socket.id];
-    io.in(currentRoom).emit("connected ids", connections.get(currentRoom)?.connectedIds[socket.id]);
+
+    let connection = connections.get(currentRoom);
+    if (!connection) return;
+    connection.removePlayer(socket);
+
+    io.in(currentRoom).emit("connected ids", connection.sockets);
   });
 
-  socket.on("join room", (room: string) => {
-    console.log(`User ${socket.id} joined room "${room}"`);
+  socket.on("join room", (room: string, name: string, teamId: number) => {
+    console.log(`Socket ${socket.id} joined room "${room}" with name "${name}" on team ${teamId}`);
     currentRoom = room;
 
     if (!connections.has(room)) {
@@ -54,9 +58,9 @@ io.on("connection", (socket: SocketIO.Socket) => {
     let connection = connections.get(currentRoom);
     if (!connection) return;
 
-    connection.connectedIds[socket.id] = true;
+    connection.addPlayer(socket, name, teamId);
     io.in(currentRoom).emit("initialize", connection.gameState);
-    io.in(currentRoom).emit("connected ids", connection.connectedIds);
+    io.in(currentRoom).emit("connected ids", connection.sockets);
   });
 
   socket.on("send reveal", () => {
@@ -64,7 +68,7 @@ io.on("connection", (socket: SocketIO.Socket) => {
     if (!connection) return;
 
     connection.gameState.isRevealed = true;
-    io.in(currentRoom).emit("receive reveal", connection.getPoints());
+    io.in(currentRoom).emit("receive reveal", connection.calculatePoints());
   });
 
   socket.on("send new round", (answer: number) => {
@@ -73,7 +77,7 @@ io.on("connection", (socket: SocketIO.Socket) => {
 
     connection.gameState.answer = answer;
     connection.gameState.isRevealed = false;
-    io.in(currentRoom).emit("receive new round", answer, connection.getNewWords());
+    io.in(currentRoom).emit("receive new round", answer, connection.generateNewWords());
   });
 
   socket.on("send guess", (guess: number) => {
