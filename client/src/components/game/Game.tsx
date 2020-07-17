@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   status: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "top",
     width: "100%",
     marginTop: "16px",
   },
@@ -47,6 +47,7 @@ const useStyles = makeStyles({
   },
   playerName: {
     fontSize: "8px",
+    marginTop: "4px",
   },
 });
 
