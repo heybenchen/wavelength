@@ -115,7 +115,7 @@ function Game() {
 
   const retrievePlayerInfo = () => {
     let playerName = sessionStorage.getItem("playerName") || "";
-    let teamId = parseInt(sessionStorage.getItem("teamId") || "");
+    let teamId = parseInt(sessionStorage.getItem("teamId") || "-1");
     console.log(`Restoring player "${playerName}" on the ${teamId ? "Blue" : "Red"} Team`);
     setPlayerName(playerName);
     setTeamId(teamId);
