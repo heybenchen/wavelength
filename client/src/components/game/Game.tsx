@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import Device from "../device/Device";
 import Score from "../score/Score";
+import { connected } from "process";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -49,10 +50,15 @@ const useStyles = makeStyles({
   },
 });
 
+type Player = {
+  name: string;
+  teamId: number;
+};
+
 function Game() {
   const classes = useStyles();
   const { roomId } = useParams();
-  const [connectedClients, setConnectedClients] = useState([""]);
+  const [connectedClients, setConnectedClients] = useState<{ [key: string]: Player }>({});
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [teamId, setTeamId] = React.useState(-1);
@@ -78,7 +84,7 @@ function Game() {
   useEffect(() => {
     const isDevelopmentMode = process.env.NODE_ENV === "development";
     const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected ids", (data: Object) => setConnectedClients(Object.keys(data)));
+    socket.on("connected ids", setConnectedClients);
     socket.on("connect", () => setDialogOpen(true));
     setSocket(socket);
 
@@ -87,33 +93,43 @@ function Game() {
     };
   }, [roomId]);
 
+  const getClientsInTeam = (teamId: number) => {
+    const clients: { [key: string]: Player } = {};
+    for (const [socketId, player] of Object.entries(connectedClients)) {
+      if (player.teamId === teamId) clients[socketId] = player;
+    }
+    return clients;
+  };
+
   const getPlayersString = () => {
     const playerCount = Object.keys(connectedClients).length;
     if (playerCount <= 1) {
       return "Waiting for players";
     }
-    return `${playerCount} Players`;
+    return `${playerCount} Players.`;
   };
 
-  const connectedClientNames = Object.values(connectedClients).map((client, index) => {
-    return (
-      <div key={index} className={classes.playerName}>
-        {/* {client} */}
-      </div>
-    );
-  });
+  const getPlayerNames = (teamId: number) => {
+    return Object.values(getClientsInTeam(teamId)).map((player, index) => {
+      return (
+        <div key={index} className={classes.playerName}>
+          {player.name}
+        </div>
+      );
+    });
+  };
 
   return (
     <div className={classes.root}>
       <div className={classes.status}>
         <div className={classes.teamContainer}>
           <Score socket={socket} teamId={0} />
-          {connectedClientNames}
+          {getPlayerNames(0)}
         </div>
         <Chip label={getPlayersString()} onClick={handlePlayerInfoOpen} />
         <div className={classes.teamContainer}>
           <Score socket={socket} teamId={1} />
-          {connectedClientNames}
+          {getPlayerNames(1)}
         </div>
       </div>
       <Device socket={socket} />
