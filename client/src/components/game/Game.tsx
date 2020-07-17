@@ -18,7 +18,6 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import Device from "../device/Device";
 import Score from "../score/Score";
-import { connected } from "process";
 
 const DEVELOPMENT_PORT = ":9001";
 
@@ -62,37 +61,8 @@ function Game() {
   const [connectedClients, setConnectedClients] = useState<{ [key: string]: Player }>({});
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [teamId, setTeamId] = React.useState(-1);
   const [playerName, setPlayerName] = React.useState("");
-
-  const handlePlayerInfoOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handlePlayerInfoSave = () => {
-    setDialogOpen(false);
-    socket && socket.emit("join room", roomId, playerName, teamId);
-  };
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPlayerName((event.target as HTMLInputElement).value);
-  };
-
-  const handleTeamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTeamId(parseInt((event.target as HTMLInputElement).value));
-  };
-
-  useEffect(() => {
-    const isDevelopmentMode = process.env.NODE_ENV === "development";
-    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
-    socket.on("connected ids", setConnectedClients);
-    socket.on("connect", () => setDialogOpen(true));
-    setSocket(socket);
-
-    return function cleanup() {
-      socket.disconnect();
-    };
-  }, [roomId]);
+  const [teamId, setTeamId] = React.useState(-1);
 
   const getClientsInTeam = (teamId: number) => {
     const clients: { [key: string]: Player } = {};
@@ -119,6 +89,56 @@ function Game() {
       );
     });
   };
+
+  const handlePlayerInfoOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handlePlayerInfoSave = () => {
+    setDialogOpen(false);
+    persistPlayerInfo();
+    socket && socket.emit("join room", roomId, playerName, teamId);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPlayerName((event.target as HTMLInputElement).value);
+  };
+
+  const handleTeamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTeamId(parseInt((event.target as HTMLInputElement).value));
+  };
+
+  const persistPlayerInfo = () => {
+    sessionStorage.setItem("playerName", playerName);
+    sessionStorage.setItem("teamId", teamId.toString());
+  };
+
+  const retrievePlayerInfo = () => {
+    let playerName = sessionStorage.getItem("playerName") || "";
+    let teamId = parseInt(sessionStorage.getItem("teamId") || "");
+    console.log(`Restoring player "${playerName}" on the ${teamId ? "Blue" : "Red"} Team`);
+    setPlayerName(playerName);
+    setTeamId(teamId);
+    return [playerName, teamId];
+  };
+
+  useEffect(() => {
+    const isDevelopmentMode = process.env.NODE_ENV === "development";
+    const socket = isDevelopmentMode ? io(DEVELOPMENT_PORT) : io();
+    socket.on("connected ids", setConnectedClients);
+    setSocket(socket);
+
+    const [playerName, teamId] = retrievePlayerInfo();
+    if (!playerName || teamId === -1) {
+      setDialogOpen(true);
+    } else {
+      socket && socket.emit("join room", roomId, playerName, teamId);
+    }
+
+    return function cleanup() {
+      socket.disconnect();
+    };
+  }, [roomId]);
 
   return (
     <div className={classes.root}>

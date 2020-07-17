@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    overflow: "hidden",
+    // overflow: "hidden",
     // bottom: "-34vh",
     // position: "absolute",
   },
