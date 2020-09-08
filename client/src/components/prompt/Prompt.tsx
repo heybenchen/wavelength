@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     borderRadius: "8px",
   },
   cardText: {
-    fontSize: "18px",
+    fontSize: "40px",
     padding: "8px",
   },
   cardArrow: {
