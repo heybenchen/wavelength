@@ -15,12 +15,11 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/socket.io-client": "^1.4.33",
-    "@types/storybook-react-router": "^1.0.1",
     "classnames": "^2.2.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.1",
     "socket.io-client": "^2.3.0",
     "typescript": "~3.7.2"
   },
@@ -56,10 +55,8 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.21",
     "babel-loader": "^8.1.0",
-    "jest-websocket-mock": "^2.1.0",
     "mock-socket": "^9.0.3",
-    "react-is": "^16.13.1",
-    "storybook-react-router": "^1.0.8"
+    "react-is": "^16.13.1"
   },
   "proxy": "http://localhost:9001"
 }
