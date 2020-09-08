@@ -1,9 +1,9 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import React from "react";
-import Prompt, { PromptProps } from "../../components/prompt/Prompt";
+import Prompt, { PromptProps } from "./Prompt";
 
 export default {
-  title: "App/Prompt",
+  title: "Components/Prompt",
   component: Prompt,
 } as Meta;
 

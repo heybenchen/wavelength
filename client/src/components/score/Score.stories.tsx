@@ -1,9 +1,9 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import React from "react";
-import Score, { ScoreProps } from "../../components/score/Score";
+import Score, { ScoreProps } from "./Score";
 
 export default {
-  title: "App/Score",
+  title: "Components/Score",
   component: Score,
 } as Meta;
 
