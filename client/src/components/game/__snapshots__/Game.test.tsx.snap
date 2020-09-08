@@ -1,0 +1,554 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="makeStyles-root-1"
+      >
+        <div
+          class="makeStyles-status-2"
+        >
+          <div
+            class="makeStyles-teamContainer-3"
+          >
+            <div
+              class="MuiButtonGroup-root makeStyles-root-5 MuiButtonGroup-contained"
+              role="group"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  -
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  0
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  +
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-clickable"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="MuiChip-label"
+            >
+              Waiting for players
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </div>
+          <div
+            class="makeStyles-teamContainer-3"
+          >
+            <div
+              class="MuiButtonGroup-root makeStyles-root-5 MuiButtonGroup-contained"
+              role="group"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  -
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  0
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  +
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="makeStyles-root-7"
+        >
+          <div
+            class="makeStyles-root-17"
+          >
+            <div
+              class="makeStyles-card-20"
+              style="background-color: rgb(120, 180, 111); border-radius: 8px 0px 0px 8px;"
+            >
+              <div
+                class="makeStyles-cardArrow-19"
+              >
+                ⟵
+              </div>
+              <div
+                class="makeStyles-cardText-18"
+              />
+            </div>
+            <div
+              class="makeStyles-card-20"
+              style="background-color: rgb(227, 181, 95); border-radius: 0px 8px 8px 0px;"
+            >
+              <div
+                class="makeStyles-cardArrow-19"
+              >
+                ⟶
+              </div>
+              <div
+                class="makeStyles-cardText-18"
+              />
+            </div>
+          </div>
+          <div
+            class="makeStyles-deviceContainer-8"
+          >
+            <img
+              alt="Device Answer"
+              class="makeStyles-deviceImg-9 makeStyles-deviceAnswer-10"
+              src="Target.svg"
+              style="transform: rotate(0deg);"
+            />
+            <img
+              alt="Device Visor"
+              class="makeStyles-deviceImg-9 makeStyles-deviceVisor-13"
+              src="Visor.svg"
+              style="transform: rotate(0deg); transition: transform 2s ease, opacity 1s ease; opacity: 1;"
+            />
+            <img
+              alt="Device Cover"
+              class="makeStyles-deviceImg-9 makeStyles-deviceCover-11"
+              draggable="false"
+              src="Cover.svg"
+            />
+            <img
+              alt="Device Dial"
+              class="makeStyles-deviceImg-9 makeStyles-deviceDial-12"
+              src="Dial.svg"
+              style="transform: rotate(0deg);"
+            />
+          </div>
+          <div
+            class="makeStyles-buttonContainer-14"
+          >
+            <div
+              class="makeStyles-spacer-16"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                Peek
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <div
+              class="makeStyles-spacer-16"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                Submit
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <div
+              class="makeStyles-spacer-16"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                New
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <div
+              class="makeStyles-spacer-16"
+            />
+          </div>
+        </div>
+        <div />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="makeStyles-root-1"
+    >
+      <div
+        class="makeStyles-status-2"
+      >
+        <div
+          class="makeStyles-teamContainer-3"
+        >
+          <div
+            class="MuiButtonGroup-root makeStyles-root-5 MuiButtonGroup-contained"
+            role="group"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                -
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                0
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedSecondary makeStyles-button-6 MuiButton-containedSecondary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                +
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-clickable"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label"
+          >
+            Waiting for players
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </div>
+        <div
+          class="makeStyles-teamContainer-3"
+        >
+          <div
+            class="MuiButtonGroup-root makeStyles-root-5 MuiButtonGroup-contained"
+            role="group"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                -
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                0
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary makeStyles-button-6 MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                +
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="makeStyles-root-7"
+      >
+        <div
+          class="makeStyles-root-17"
+        >
+          <div
+            class="makeStyles-card-20"
+            style="background-color: rgb(120, 180, 111); border-radius: 8px 0px 0px 8px;"
+          >
+            <div
+              class="makeStyles-cardArrow-19"
+            >
+              ⟵
+            </div>
+            <div
+              class="makeStyles-cardText-18"
+            />
+          </div>
+          <div
+            class="makeStyles-card-20"
+            style="background-color: rgb(227, 181, 95); border-radius: 0px 8px 8px 0px;"
+          >
+            <div
+              class="makeStyles-cardArrow-19"
+            >
+              ⟶
+            </div>
+            <div
+              class="makeStyles-cardText-18"
+            />
+          </div>
+        </div>
+        <div
+          class="makeStyles-deviceContainer-8"
+        >
+          <img
+            alt="Device Answer"
+            class="makeStyles-deviceImg-9 makeStyles-deviceAnswer-10"
+            src="Target.svg"
+            style="transform: rotate(0deg);"
+          />
+          <img
+            alt="Device Visor"
+            class="makeStyles-deviceImg-9 makeStyles-deviceVisor-13"
+            src="Visor.svg"
+            style="transform: rotate(0deg); transition: transform 2s ease, opacity 1s ease; opacity: 1;"
+          />
+          <img
+            alt="Device Cover"
+            class="makeStyles-deviceImg-9 makeStyles-deviceCover-11"
+            draggable="false"
+            src="Cover.svg"
+          />
+          <img
+            alt="Device Dial"
+            class="makeStyles-deviceImg-9 makeStyles-deviceDial-12"
+            src="Dial.svg"
+            style="transform: rotate(0deg);"
+          />
+        </div>
+        <div
+          class="makeStyles-buttonContainer-14"
+        >
+          <div
+            class="makeStyles-spacer-16"
+          />
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Peek
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="makeStyles-spacer-16"
+          />
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Submit
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="makeStyles-spacer-16"
+          />
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-15"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              New
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="makeStyles-spacer-16"
+          />
+        </div>
+      </div>
+      <div />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

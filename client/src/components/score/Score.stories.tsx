@@ -9,7 +9,12 @@ export default {
 
 const Template: Story<ScoreProps> = (args) => <Score {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const RedTeam = Template.bind({});
+RedTeam.args = {
   teamId: 0,
+};
+
+export const BlueTeam = Template.bind({});
+BlueTeam.args = {
+  teamId: 1,
 };
