@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          cd client && yarn && yarn build
+          yarn && yarn build
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
