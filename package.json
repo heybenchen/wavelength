@@ -24,7 +24,8 @@
     "dev:server": "cd client && yarn build && cd .. && yarn start",
     "start": "tsc && node server.js",
     "build": "cd client && yarn install && yarn build",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "storybook": "cd client && yarn storybook"
   },
   "devDependencies": {},
   "engines": {

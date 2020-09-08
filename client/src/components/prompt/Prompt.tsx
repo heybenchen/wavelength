@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-type PromptProps = {
+export type PromptProps = {
   wordSet: string[] | undefined;
 };
 
