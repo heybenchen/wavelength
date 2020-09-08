@@ -1,15 +1,19 @@
 name: "Chromatic"
 on: push
 
+defaults:
+  run:
+    working-directory: client
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: cd client
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - run: yarn && yarn build
+      - run: |
+          cd client && yarn && yarn build
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
