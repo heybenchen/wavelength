@@ -11,6 +11,5 @@ const Template: Story<ScoreProps> = (args) => <Score {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  socket: undefined,
   teamId: 0,
 };
