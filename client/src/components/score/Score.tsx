@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-type ScoreProps = {
+export type ScoreProps = {
   socket: SocketIOClient.Socket | undefined;
   teamId: 0 | 1;
 };

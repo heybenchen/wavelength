@@ -130,7 +130,7 @@ function Game() {
 
     const [playerName, teamId] = retrievePlayerInfo();
     if (!playerName || teamId === -1) {
-      setDialogOpen(true);
+      // setDialogOpen(true);
     } else {
       socket && socket.emit("join room", roomId, playerName, teamId);
     }

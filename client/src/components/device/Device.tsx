@@ -61,7 +61,10 @@ const MAX_VISOR = 170;
 const MIN_DIAL = -80;
 const MAX_DIAL = 80;
 
-type DeviceProps = {
+export type DeviceProps = {
+  /**
+   * Websocket.
+   */
   socket: SocketIOClient.Socket | undefined;
 };
 
