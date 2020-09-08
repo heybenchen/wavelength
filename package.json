@@ -19,7 +19,7 @@
     "typescript": "^3.9.6"
   },
   "scripts": {
-    "analyze": "yarn source-map-explorer build/static/js/*.js",
+    "analyze": "yarn source-map-explorer client/build/static/js/*.js",
     "server": "ts-node-dev --respawn --transpile-only server.ts",
     "client": "cd client && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
