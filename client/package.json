@@ -41,7 +41,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "chromatic": "npx chromatic --project-token sk7qfukobt"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -58,5 +59,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9001"
+  "proxy": "http://localhost:9001",
+  "devDependencies": {
+    "chromatic": "^5.1.0"
+  }
 }
