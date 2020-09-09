@@ -10,11 +10,6 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-test("it renders", () => {
-  const tree = render(<Game />);
-  // expect(tree).toMatchSnapshot();
-});
-
 test("it renders player count", () => {
   const { getByText } = render(<Game />);
   const playerCountElement = getByText(/Players/i);
