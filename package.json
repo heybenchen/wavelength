@@ -27,7 +27,9 @@
     "start": "tsc && node server.js",
     "build": "cd client && yarn install && yarn build",
     "tsc": "tsc",
-    "storybook": "cd client && yarn storybook"
+    "storybook": "cd client && yarn storybook",
+    "build-storybook": "cd client && yarn build-storybook",
+    "chromatic": "cd client && yarn chromatic"
   },
   "devDependencies": {},
   "engines": {
