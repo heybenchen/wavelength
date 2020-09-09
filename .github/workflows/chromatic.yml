@@ -1,10 +1,6 @@
 name: "Chromatic"
 on: push
 
-defaults:
-  run:
-    working-directory: client
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,8 +10,9 @@ jobs:
           fetch-depth: 0
       - run: |
           yarn && yarn build
+        working-directory: client
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: client
+          storybookBuildDir: client/storyboard-static
