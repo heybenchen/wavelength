@@ -12,7 +12,7 @@ jobs:
           yarn && yarn build
         working-directory: client
       - run: |
-          yarn storybook-build
+          yarn build-storybook
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
