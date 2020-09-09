@@ -41,7 +41,7 @@ export default function Prompt(props: PromptProps) {
     <div className={classes.root}>
       <div
         className={classes.card}
-        style={{ backgroundColor: "#333333", borderRadius: "8px 0px 0px 8px" }}
+        style={{ backgroundColor: "#78B46F", borderRadius: "8px 0px 0px 8px" }}
       >
         <div className={classes.cardArrow}>⟵</div>
         <div className={classes.cardText}>{wordSet[0]}</div>

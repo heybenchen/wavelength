@@ -11,7 +11,7 @@ exports[`Storyshots Components/Device Default 1`] = `
       className="makeStyles-card-14"
       style={
         Object {
-          "backgroundColor": "#333333",
+          "backgroundColor": "#78B46F",
           "borderRadius": "8px 0px 0px 8px",
         }
       }
@@ -189,7 +189,7 @@ exports[`Storyshots Components/Prompt Default 1`] = `
     className="makeStyles-card-18"
     style={
       Object {
-        "backgroundColor": "#333333",
+        "backgroundColor": "#78B46F",
         "borderRadius": "8px 0px 0px 8px",
       }
     }
